@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "maana-df-test",
+  "private_key_id": "a113c984d08f724e96fb442bb8256d5eefb28bac",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCXVm7l/yXzJt/5\nUREeCNE9rXYdWriWmIJpARzY313n1fvd3Mfb3ATHdPjPBg8p9S7ytc4wWwHLXFF3\nxO7W3eKjDg178dHzKtshb8xySvYUYBOADt9ZDZ5selSs1ZFGrf6FQlKPVK9RvlL3\nRHHN10+sEn4feeAA2exGUIC5dmaGElkF4NzKihlVB86ySF/pyb0oELiftzql+++2\n77b2Evjr8HSD0pJGPyRNuNfzRJh33s4tAz3jZ4AxAK1oCX21Pk8ZUU4udv2ZqlMi\nWz6dv+497J6k0aUQT3Yultayt94D9KIMy892igbID0SqAbVqwhJ07ZVAyuBTemSg\nwexJrw6JAgMBAAECggEABfcr4jBVd0EhK09jIrlTgTBHI4dV1ybeHiRDdjeQ2LCO\nT/ux26RvwkqFu8hn/N4LupjIzs5pktH56qQWS509v7JwPOJmhaS69FWXPCqhCmLS\npfXAH18qb2l/kLwO8NevPKLFhR2gFxNu6w0VRNlPzE9CzjwURMhSWF+4QUdN6Ys8\nVk98IyAhYaLtD31zKxGL/yYZlegHb1lh6mEc4PXK37LZbsXKseTSnc7X3BsU6rsT\nWmCtKyGYiR46k9AjAIJc2AXFj4C+EY1xXaB72pAnm10zI2Ls7/ETsNlFGGFVtneu\nIp1gzIQo0b5s7Ska5nnWR0ucYHCyqDvQc8wo1Za50QKBgQDJSs0MTMBvaxBNLFqV\nGQ3cZKzgb8MczjhNkUzbb2PtHWD6lml1Z9K756ARu2vchwQjexgxGCQAuEAtr03U\nB/OzprQi8OVSQayFad4kE1OuKTmgAvmfZQUA596YJGkFfhcROZmH7UrJpBnF7H17\nxwkjsScU8MqJ8pYXBSzLeb4eeQKBgQDAd/huouWreRd7Vokbtl2bc5iwQ4N2CYcv\nElJ6Z9X4RgwQJMH98fSzJzZmRjihmaBadRIgRdr5IIGaiPwxLNP0jttkdyzbj7s4\nQOIiFGZQAjAD8Ak3MVP7npijeC32NYjg84y2XBnVlUyxwN7HnDFCMJSaJYHCKeWV\n2XTVuRsskQKBgEaOjalODfYAFUq3zViN26nxMBfLlRy3vEyULdiNBv3KWn/70SNy\nLQ/odNdCVuCKAw1czHIJADWwX+6jkChOUUIboPDOd9OJaauqHE+Q5rgZgzVvVYhl\npIdYv1GdEaL3O6ayBfr7Vkev2cjiyGlmrvFv2z8f2B7ahXm0OqtoFRghAoGBAIHt\nOu7s1l/f+cMQErR7cktrSIrMuKTpH7HeC4GIMQBNwPzw42gbetWpxeZaxwYIICCQ\nYTEaFw0QLY11pdFIcrjn6yCx9r0tFPSPkFfzL3IZV/KAiqgQi6ITWPUZPuWzE/jP\nUJEWMXZmOATSr1FOlk4ZX2eDpEm/YLW8u0s/jyGRAoGAItLIH4EvIeMcrx93ENIg\nNdtwiP+9GPn324p9FOzhRx8I2t2p9qSvj1TGWzn3q81o5X3dTlJPXUlqBVQE0bTm\njifKlwr4pH/jSwIQHuHwCQCmy9eU4qaa6OgkVNbIN63/XrHEaUZuzO+KeOJ1hZCu\nIOQR38LZo9GgBINXFrtIsak=\n-----END PRIVATE KEY-----\n",
+  "client_email": "maana-demo@maana-df-test.iam.gserviceaccount.com",
+  "client_id": "114572231754131268519",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/maana-demo%40maana-df-test.iam.gserviceaccount.com"
+}
