@@ -1,0 +1,4144 @@
+# source: https://13.77.154.13:4466/wikipedia/dev
+# timestamp: Wed Dec 12 2018 14:29:54 GMT-0800 (Pacific Standard Time)
+
+type AggregateInfo {
+  count: Int!
+}
+
+type AggregateWikiInfo {
+  count: Int!
+}
+
+type BatchPayload {
+  """The number of nodes that have been affected by the Batch operation."""
+  count: Long!
+}
+
+type Info {
+  name: String!
+  version: String
+}
+
+"""A connection to a list of items."""
+type InfoConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [InfoEdge]!
+  aggregate: AggregateInfo!
+}
+
+input InfoCreateInput {
+  name: String!
+  version: String
+}
+
+"""An edge in a connection."""
+type InfoEdge {
+  """The item at the end of the edge."""
+  node: Info!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum InfoOrderByInput {
+  name_ASC
+  name_DESC
+  version_ASC
+  version_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type InfoPreviousValues {
+  name: String!
+  version: String
+}
+
+type InfoSubscriptionPayload {
+  mutation: MutationType!
+  node: Info
+  updatedFields: [String!]
+  previousValues: InfoPreviousValues
+}
+
+input InfoSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [InfoSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [InfoSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [InfoSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: InfoWhereInput
+}
+
+input InfoUpdateManyMutationInput {
+  name: String
+  version: String
+}
+
+input InfoWhereInput {
+  """Logical AND on all given filters."""
+  AND: [InfoWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [InfoWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [InfoWhereInput!]
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  version: String
+
+  """All values that are not equal to given value."""
+  version_not: String
+
+  """All values that are contained in given list."""
+  version_in: [String!]
+
+  """All values that are not contained in given list."""
+  version_not_in: [String!]
+
+  """All values less than the given value."""
+  version_lt: String
+
+  """All values less than or equal the given value."""
+  version_lte: String
+
+  """All values greater than the given value."""
+  version_gt: String
+
+  """All values greater than or equal the given value."""
+  version_gte: String
+
+  """All values containing the given string."""
+  version_contains: String
+
+  """All values not containing the given string."""
+  version_not_contains: String
+
+  """All values starting with the given string."""
+  version_starts_with: String
+
+  """All values not starting with the given string."""
+  version_not_starts_with: String
+
+  """All values ending with the given string."""
+  version_ends_with: String
+
+  """All values not ending with the given string."""
+  version_not_ends_with: String
+}
+
+"""
+The `Long` scalar type represents non-fractional signed whole numeric values.
+Long can represent values between -(2^63) and 2^63 - 1.
+"""
+scalar Long
+
+type Mutation {
+  createInfo(data: InfoCreateInput!): Info!
+  createWikiInfo(data: WikiInfoCreateInput!): WikiInfo!
+  updateWikiInfo(data: WikiInfoUpdateInput!, where: WikiInfoWhereUniqueInput!): WikiInfo
+  deleteWikiInfo(where: WikiInfoWhereUniqueInput!): WikiInfo
+  upsertWikiInfo(where: WikiInfoWhereUniqueInput!, create: WikiInfoCreateInput!, update: WikiInfoUpdateInput!): WikiInfo!
+  updateManyInfoes(data: InfoUpdateManyMutationInput!, where: InfoWhereInput): BatchPayload!
+  updateManyWikiInfoes(data: WikiInfoUpdateManyMutationInput!, where: WikiInfoWhereInput): BatchPayload!
+  deleteManyInfoes(where: InfoWhereInput): BatchPayload!
+  deleteManyWikiInfoes(where: WikiInfoWhereInput): BatchPayload!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+type Query {
+  infoes(where: InfoWhereInput, orderBy: InfoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Info]!
+  wikiInfoes(where: WikiInfoWhereInput, orderBy: WikiInfoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [WikiInfo]!
+  wikiInfo(where: WikiInfoWhereUniqueInput!): WikiInfo
+  infoesConnection(where: InfoWhereInput, orderBy: InfoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): InfoConnection!
+  wikiInfoesConnection(where: WikiInfoWhereInput, orderBy: WikiInfoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): WikiInfoConnection!
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+}
+
+type Subscription {
+  info(where: InfoSubscriptionWhereInput): InfoSubscriptionPayload
+  wikiInfo(where: WikiInfoSubscriptionWhereInput): WikiInfoSubscriptionPayload
+}
+
+type WikiInfo implements Node {
+  id: ID!
+  name: String
+  fullname: String
+  former: String
+  flag: String
+  flaglink: String
+  seal: String
+  seallink: String
+  map: String
+  nickname: String
+  motto: String
+  stateAnthem: String
+  demonym: [String!]!
+  capital: String
+  largestCity: String
+  largestMetro: String
+  governor: String
+  lieutenantGovernor: String
+  legislature: String
+  upperhouse: String
+  lowerhouse: String
+  senators: String
+  representative: String
+  postalAbbreviation: String
+  tradAbbreviation: String
+  borderingStates: [String!]!
+  officialLang: String
+  languages: String
+  areaRank: String
+  totalAreaUs: String
+  totalArea: String
+  landAreaUs: String
+  landArea: String
+  waterAreaUs: String
+  waterArea: String
+  pcWater: String
+  popRank: String
+  densityRank: String
+  medianHouseholdIncome: String
+  incomeRank: String
+  totalGdp: String
+  totalGdpRank: String
+  perCapitaGdp: String
+  perCapitaGdpRank: String
+  admittanceOrder: String
+  admittanceDate: String
+  timeZone: [String!]!
+  tz1Where: String
+  timeZone2: [String!]!
+  tz2Where: [String!]!
+  latitude: String
+  longitude: String
+  widthUs: String
+  width: String
+  lengthUs: String
+  length: String
+  highestPoint: String
+  highestElevUs: String
+  highestElev: String
+  meanElevUs: String
+  meanElev: String
+  lowestPoint: String
+  lowestElevUs: String
+  lowestElev: String
+  isoCode: String
+  electoralVotes: String
+  website: String
+  bird: String
+  fish: String
+  flower: String
+  insect: String
+  mammal: [String!]!
+  reptile: String
+  tree: String
+  food: String
+  instrument: String
+  shell: String
+  ship: String
+  slogan: String
+  soil: String
+  sport: String
+  other: String
+  routeMarker: String
+  quarter: String
+  quarterReleaseDate: String
+}
+
+"""A connection to a list of items."""
+type WikiInfoConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [WikiInfoEdge]!
+  aggregate: AggregateWikiInfo!
+}
+
+input WikiInfoCreateborderingStatesInput {
+  set: [String!]
+}
+
+input WikiInfoCreatedemonymInput {
+  set: [String!]
+}
+
+input WikiInfoCreateInput {
+  name: String
+  fullname: String
+  former: String
+  flag: String
+  flaglink: String
+  seal: String
+  seallink: String
+  map: String
+  nickname: String
+  motto: String
+  stateAnthem: String
+  capital: String
+  largestCity: String
+  largestMetro: String
+  governor: String
+  lieutenantGovernor: String
+  legislature: String
+  upperhouse: String
+  lowerhouse: String
+  senators: String
+  representative: String
+  postalAbbreviation: String
+  tradAbbreviation: String
+  officialLang: String
+  languages: String
+  areaRank: String
+  totalAreaUs: String
+  totalArea: String
+  landAreaUs: String
+  landArea: String
+  waterAreaUs: String
+  waterArea: String
+  pcWater: String
+  popRank: String
+  densityRank: String
+  medianHouseholdIncome: String
+  incomeRank: String
+  totalGdp: String
+  totalGdpRank: String
+  perCapitaGdp: String
+  perCapitaGdpRank: String
+  admittanceOrder: String
+  admittanceDate: String
+  tz1Where: String
+  latitude: String
+  longitude: String
+  widthUs: String
+  width: String
+  lengthUs: String
+  length: String
+  highestPoint: String
+  highestElevUs: String
+  highestElev: String
+  meanElevUs: String
+  meanElev: String
+  lowestPoint: String
+  lowestElevUs: String
+  lowestElev: String
+  isoCode: String
+  electoralVotes: String
+  website: String
+  bird: String
+  fish: String
+  flower: String
+  insect: String
+  reptile: String
+  tree: String
+  food: String
+  instrument: String
+  shell: String
+  ship: String
+  slogan: String
+  soil: String
+  sport: String
+  other: String
+  routeMarker: String
+  quarter: String
+  quarterReleaseDate: String
+  demonym: WikiInfoCreatedemonymInput
+  borderingStates: WikiInfoCreateborderingStatesInput
+  timeZone: WikiInfoCreatetimeZoneInput
+  timeZone2: WikiInfoCreatetimeZone2Input
+  tz2Where: WikiInfoCreatetz2WhereInput
+  mammal: WikiInfoCreatemammalInput
+}
+
+input WikiInfoCreatemammalInput {
+  set: [String!]
+}
+
+input WikiInfoCreatetimeZone2Input {
+  set: [String!]
+}
+
+input WikiInfoCreatetimeZoneInput {
+  set: [String!]
+}
+
+input WikiInfoCreatetz2WhereInput {
+  set: [String!]
+}
+
+"""An edge in a connection."""
+type WikiInfoEdge {
+  """The item at the end of the edge."""
+  node: WikiInfo!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum WikiInfoOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  fullname_ASC
+  fullname_DESC
+  former_ASC
+  former_DESC
+  flag_ASC
+  flag_DESC
+  flaglink_ASC
+  flaglink_DESC
+  seal_ASC
+  seal_DESC
+  seallink_ASC
+  seallink_DESC
+  map_ASC
+  map_DESC
+  nickname_ASC
+  nickname_DESC
+  motto_ASC
+  motto_DESC
+  stateAnthem_ASC
+  stateAnthem_DESC
+  capital_ASC
+  capital_DESC
+  largestCity_ASC
+  largestCity_DESC
+  largestMetro_ASC
+  largestMetro_DESC
+  governor_ASC
+  governor_DESC
+  lieutenantGovernor_ASC
+  lieutenantGovernor_DESC
+  legislature_ASC
+  legislature_DESC
+  upperhouse_ASC
+  upperhouse_DESC
+  lowerhouse_ASC
+  lowerhouse_DESC
+  senators_ASC
+  senators_DESC
+  representative_ASC
+  representative_DESC
+  postalAbbreviation_ASC
+  postalAbbreviation_DESC
+  tradAbbreviation_ASC
+  tradAbbreviation_DESC
+  officialLang_ASC
+  officialLang_DESC
+  languages_ASC
+  languages_DESC
+  areaRank_ASC
+  areaRank_DESC
+  totalAreaUs_ASC
+  totalAreaUs_DESC
+  totalArea_ASC
+  totalArea_DESC
+  landAreaUs_ASC
+  landAreaUs_DESC
+  landArea_ASC
+  landArea_DESC
+  waterAreaUs_ASC
+  waterAreaUs_DESC
+  waterArea_ASC
+  waterArea_DESC
+  pcWater_ASC
+  pcWater_DESC
+  popRank_ASC
+  popRank_DESC
+  densityRank_ASC
+  densityRank_DESC
+  medianHouseholdIncome_ASC
+  medianHouseholdIncome_DESC
+  incomeRank_ASC
+  incomeRank_DESC
+  totalGdp_ASC
+  totalGdp_DESC
+  totalGdpRank_ASC
+  totalGdpRank_DESC
+  perCapitaGdp_ASC
+  perCapitaGdp_DESC
+  perCapitaGdpRank_ASC
+  perCapitaGdpRank_DESC
+  admittanceOrder_ASC
+  admittanceOrder_DESC
+  admittanceDate_ASC
+  admittanceDate_DESC
+  tz1Where_ASC
+  tz1Where_DESC
+  latitude_ASC
+  latitude_DESC
+  longitude_ASC
+  longitude_DESC
+  widthUs_ASC
+  widthUs_DESC
+  width_ASC
+  width_DESC
+  lengthUs_ASC
+  lengthUs_DESC
+  length_ASC
+  length_DESC
+  highestPoint_ASC
+  highestPoint_DESC
+  highestElevUs_ASC
+  highestElevUs_DESC
+  highestElev_ASC
+  highestElev_DESC
+  meanElevUs_ASC
+  meanElevUs_DESC
+  meanElev_ASC
+  meanElev_DESC
+  lowestPoint_ASC
+  lowestPoint_DESC
+  lowestElevUs_ASC
+  lowestElevUs_DESC
+  lowestElev_ASC
+  lowestElev_DESC
+  isoCode_ASC
+  isoCode_DESC
+  electoralVotes_ASC
+  electoralVotes_DESC
+  website_ASC
+  website_DESC
+  bird_ASC
+  bird_DESC
+  fish_ASC
+  fish_DESC
+  flower_ASC
+  flower_DESC
+  insect_ASC
+  insect_DESC
+  reptile_ASC
+  reptile_DESC
+  tree_ASC
+  tree_DESC
+  food_ASC
+  food_DESC
+  instrument_ASC
+  instrument_DESC
+  shell_ASC
+  shell_DESC
+  ship_ASC
+  ship_DESC
+  slogan_ASC
+  slogan_DESC
+  soil_ASC
+  soil_DESC
+  sport_ASC
+  sport_DESC
+  other_ASC
+  other_DESC
+  routeMarker_ASC
+  routeMarker_DESC
+  quarter_ASC
+  quarter_DESC
+  quarterReleaseDate_ASC
+  quarterReleaseDate_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type WikiInfoPreviousValues {
+  id: ID!
+  name: String
+  fullname: String
+  former: String
+  flag: String
+  flaglink: String
+  seal: String
+  seallink: String
+  map: String
+  nickname: String
+  motto: String
+  stateAnthem: String
+  demonym: [String!]!
+  capital: String
+  largestCity: String
+  largestMetro: String
+  governor: String
+  lieutenantGovernor: String
+  legislature: String
+  upperhouse: String
+  lowerhouse: String
+  senators: String
+  representative: String
+  postalAbbreviation: String
+  tradAbbreviation: String
+  borderingStates: [String!]!
+  officialLang: String
+  languages: String
+  areaRank: String
+  totalAreaUs: String
+  totalArea: String
+  landAreaUs: String
+  landArea: String
+  waterAreaUs: String
+  waterArea: String
+  pcWater: String
+  popRank: String
+  densityRank: String
+  medianHouseholdIncome: String
+  incomeRank: String
+  totalGdp: String
+  totalGdpRank: String
+  perCapitaGdp: String
+  perCapitaGdpRank: String
+  admittanceOrder: String
+  admittanceDate: String
+  timeZone: [String!]!
+  tz1Where: String
+  timeZone2: [String!]!
+  tz2Where: [String!]!
+  latitude: String
+  longitude: String
+  widthUs: String
+  width: String
+  lengthUs: String
+  length: String
+  highestPoint: String
+  highestElevUs: String
+  highestElev: String
+  meanElevUs: String
+  meanElev: String
+  lowestPoint: String
+  lowestElevUs: String
+  lowestElev: String
+  isoCode: String
+  electoralVotes: String
+  website: String
+  bird: String
+  fish: String
+  flower: String
+  insect: String
+  mammal: [String!]!
+  reptile: String
+  tree: String
+  food: String
+  instrument: String
+  shell: String
+  ship: String
+  slogan: String
+  soil: String
+  sport: String
+  other: String
+  routeMarker: String
+  quarter: String
+  quarterReleaseDate: String
+}
+
+type WikiInfoSubscriptionPayload {
+  mutation: MutationType!
+  node: WikiInfo
+  updatedFields: [String!]
+  previousValues: WikiInfoPreviousValues
+}
+
+input WikiInfoSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [WikiInfoSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [WikiInfoSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [WikiInfoSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: WikiInfoWhereInput
+}
+
+input WikiInfoUpdateborderingStatesInput {
+  set: [String!]
+}
+
+input WikiInfoUpdatedemonymInput {
+  set: [String!]
+}
+
+input WikiInfoUpdateInput {
+  name: String
+  fullname: String
+  former: String
+  flag: String
+  flaglink: String
+  seal: String
+  seallink: String
+  map: String
+  nickname: String
+  motto: String
+  stateAnthem: String
+  capital: String
+  largestCity: String
+  largestMetro: String
+  governor: String
+  lieutenantGovernor: String
+  legislature: String
+  upperhouse: String
+  lowerhouse: String
+  senators: String
+  representative: String
+  postalAbbreviation: String
+  tradAbbreviation: String
+  officialLang: String
+  languages: String
+  areaRank: String
+  totalAreaUs: String
+  totalArea: String
+  landAreaUs: String
+  landArea: String
+  waterAreaUs: String
+  waterArea: String
+  pcWater: String
+  popRank: String
+  densityRank: String
+  medianHouseholdIncome: String
+  incomeRank: String
+  totalGdp: String
+  totalGdpRank: String
+  perCapitaGdp: String
+  perCapitaGdpRank: String
+  admittanceOrder: String
+  admittanceDate: String
+  tz1Where: String
+  latitude: String
+  longitude: String
+  widthUs: String
+  width: String
+  lengthUs: String
+  length: String
+  highestPoint: String
+  highestElevUs: String
+  highestElev: String
+  meanElevUs: String
+  meanElev: String
+  lowestPoint: String
+  lowestElevUs: String
+  lowestElev: String
+  isoCode: String
+  electoralVotes: String
+  website: String
+  bird: String
+  fish: String
+  flower: String
+  insect: String
+  reptile: String
+  tree: String
+  food: String
+  instrument: String
+  shell: String
+  ship: String
+  slogan: String
+  soil: String
+  sport: String
+  other: String
+  routeMarker: String
+  quarter: String
+  quarterReleaseDate: String
+  demonym: WikiInfoUpdatedemonymInput
+  borderingStates: WikiInfoUpdateborderingStatesInput
+  timeZone: WikiInfoUpdatetimeZoneInput
+  timeZone2: WikiInfoUpdatetimeZone2Input
+  tz2Where: WikiInfoUpdatetz2WhereInput
+  mammal: WikiInfoUpdatemammalInput
+}
+
+input WikiInfoUpdatemammalInput {
+  set: [String!]
+}
+
+input WikiInfoUpdateManyMutationInput {
+  name: String
+  fullname: String
+  former: String
+  flag: String
+  flaglink: String
+  seal: String
+  seallink: String
+  map: String
+  nickname: String
+  motto: String
+  stateAnthem: String
+  capital: String
+  largestCity: String
+  largestMetro: String
+  governor: String
+  lieutenantGovernor: String
+  legislature: String
+  upperhouse: String
+  lowerhouse: String
+  senators: String
+  representative: String
+  postalAbbreviation: String
+  tradAbbreviation: String
+  officialLang: String
+  languages: String
+  areaRank: String
+  totalAreaUs: String
+  totalArea: String
+  landAreaUs: String
+  landArea: String
+  waterAreaUs: String
+  waterArea: String
+  pcWater: String
+  popRank: String
+  densityRank: String
+  medianHouseholdIncome: String
+  incomeRank: String
+  totalGdp: String
+  totalGdpRank: String
+  perCapitaGdp: String
+  perCapitaGdpRank: String
+  admittanceOrder: String
+  admittanceDate: String
+  tz1Where: String
+  latitude: String
+  longitude: String
+  widthUs: String
+  width: String
+  lengthUs: String
+  length: String
+  highestPoint: String
+  highestElevUs: String
+  highestElev: String
+  meanElevUs: String
+  meanElev: String
+  lowestPoint: String
+  lowestElevUs: String
+  lowestElev: String
+  isoCode: String
+  electoralVotes: String
+  website: String
+  bird: String
+  fish: String
+  flower: String
+  insect: String
+  reptile: String
+  tree: String
+  food: String
+  instrument: String
+  shell: String
+  ship: String
+  slogan: String
+  soil: String
+  sport: String
+  other: String
+  routeMarker: String
+  quarter: String
+  quarterReleaseDate: String
+  demonym: WikiInfoUpdatedemonymInput
+  borderingStates: WikiInfoUpdateborderingStatesInput
+  timeZone: WikiInfoUpdatetimeZoneInput
+  timeZone2: WikiInfoUpdatetimeZone2Input
+  tz2Where: WikiInfoUpdatetz2WhereInput
+  mammal: WikiInfoUpdatemammalInput
+}
+
+input WikiInfoUpdatetimeZone2Input {
+  set: [String!]
+}
+
+input WikiInfoUpdatetimeZoneInput {
+  set: [String!]
+}
+
+input WikiInfoUpdatetz2WhereInput {
+  set: [String!]
+}
+
+input WikiInfoWhereInput {
+  """Logical AND on all given filters."""
+  AND: [WikiInfoWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [WikiInfoWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [WikiInfoWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  fullname: String
+
+  """All values that are not equal to given value."""
+  fullname_not: String
+
+  """All values that are contained in given list."""
+  fullname_in: [String!]
+
+  """All values that are not contained in given list."""
+  fullname_not_in: [String!]
+
+  """All values less than the given value."""
+  fullname_lt: String
+
+  """All values less than or equal the given value."""
+  fullname_lte: String
+
+  """All values greater than the given value."""
+  fullname_gt: String
+
+  """All values greater than or equal the given value."""
+  fullname_gte: String
+
+  """All values containing the given string."""
+  fullname_contains: String
+
+  """All values not containing the given string."""
+  fullname_not_contains: String
+
+  """All values starting with the given string."""
+  fullname_starts_with: String
+
+  """All values not starting with the given string."""
+  fullname_not_starts_with: String
+
+  """All values ending with the given string."""
+  fullname_ends_with: String
+
+  """All values not ending with the given string."""
+  fullname_not_ends_with: String
+  former: String
+
+  """All values that are not equal to given value."""
+  former_not: String
+
+  """All values that are contained in given list."""
+  former_in: [String!]
+
+  """All values that are not contained in given list."""
+  former_not_in: [String!]
+
+  """All values less than the given value."""
+  former_lt: String
+
+  """All values less than or equal the given value."""
+  former_lte: String
+
+  """All values greater than the given value."""
+  former_gt: String
+
+  """All values greater than or equal the given value."""
+  former_gte: String
+
+  """All values containing the given string."""
+  former_contains: String
+
+  """All values not containing the given string."""
+  former_not_contains: String
+
+  """All values starting with the given string."""
+  former_starts_with: String
+
+  """All values not starting with the given string."""
+  former_not_starts_with: String
+
+  """All values ending with the given string."""
+  former_ends_with: String
+
+  """All values not ending with the given string."""
+  former_not_ends_with: String
+  flag: String
+
+  """All values that are not equal to given value."""
+  flag_not: String
+
+  """All values that are contained in given list."""
+  flag_in: [String!]
+
+  """All values that are not contained in given list."""
+  flag_not_in: [String!]
+
+  """All values less than the given value."""
+  flag_lt: String
+
+  """All values less than or equal the given value."""
+  flag_lte: String
+
+  """All values greater than the given value."""
+  flag_gt: String
+
+  """All values greater than or equal the given value."""
+  flag_gte: String
+
+  """All values containing the given string."""
+  flag_contains: String
+
+  """All values not containing the given string."""
+  flag_not_contains: String
+
+  """All values starting with the given string."""
+  flag_starts_with: String
+
+  """All values not starting with the given string."""
+  flag_not_starts_with: String
+
+  """All values ending with the given string."""
+  flag_ends_with: String
+
+  """All values not ending with the given string."""
+  flag_not_ends_with: String
+  flaglink: String
+
+  """All values that are not equal to given value."""
+  flaglink_not: String
+
+  """All values that are contained in given list."""
+  flaglink_in: [String!]
+
+  """All values that are not contained in given list."""
+  flaglink_not_in: [String!]
+
+  """All values less than the given value."""
+  flaglink_lt: String
+
+  """All values less than or equal the given value."""
+  flaglink_lte: String
+
+  """All values greater than the given value."""
+  flaglink_gt: String
+
+  """All values greater than or equal the given value."""
+  flaglink_gte: String
+
+  """All values containing the given string."""
+  flaglink_contains: String
+
+  """All values not containing the given string."""
+  flaglink_not_contains: String
+
+  """All values starting with the given string."""
+  flaglink_starts_with: String
+
+  """All values not starting with the given string."""
+  flaglink_not_starts_with: String
+
+  """All values ending with the given string."""
+  flaglink_ends_with: String
+
+  """All values not ending with the given string."""
+  flaglink_not_ends_with: String
+  seal: String
+
+  """All values that are not equal to given value."""
+  seal_not: String
+
+  """All values that are contained in given list."""
+  seal_in: [String!]
+
+  """All values that are not contained in given list."""
+  seal_not_in: [String!]
+
+  """All values less than the given value."""
+  seal_lt: String
+
+  """All values less than or equal the given value."""
+  seal_lte: String
+
+  """All values greater than the given value."""
+  seal_gt: String
+
+  """All values greater than or equal the given value."""
+  seal_gte: String
+
+  """All values containing the given string."""
+  seal_contains: String
+
+  """All values not containing the given string."""
+  seal_not_contains: String
+
+  """All values starting with the given string."""
+  seal_starts_with: String
+
+  """All values not starting with the given string."""
+  seal_not_starts_with: String
+
+  """All values ending with the given string."""
+  seal_ends_with: String
+
+  """All values not ending with the given string."""
+  seal_not_ends_with: String
+  seallink: String
+
+  """All values that are not equal to given value."""
+  seallink_not: String
+
+  """All values that are contained in given list."""
+  seallink_in: [String!]
+
+  """All values that are not contained in given list."""
+  seallink_not_in: [String!]
+
+  """All values less than the given value."""
+  seallink_lt: String
+
+  """All values less than or equal the given value."""
+  seallink_lte: String
+
+  """All values greater than the given value."""
+  seallink_gt: String
+
+  """All values greater than or equal the given value."""
+  seallink_gte: String
+
+  """All values containing the given string."""
+  seallink_contains: String
+
+  """All values not containing the given string."""
+  seallink_not_contains: String
+
+  """All values starting with the given string."""
+  seallink_starts_with: String
+
+  """All values not starting with the given string."""
+  seallink_not_starts_with: String
+
+  """All values ending with the given string."""
+  seallink_ends_with: String
+
+  """All values not ending with the given string."""
+  seallink_not_ends_with: String
+  map: String
+
+  """All values that are not equal to given value."""
+  map_not: String
+
+  """All values that are contained in given list."""
+  map_in: [String!]
+
+  """All values that are not contained in given list."""
+  map_not_in: [String!]
+
+  """All values less than the given value."""
+  map_lt: String
+
+  """All values less than or equal the given value."""
+  map_lte: String
+
+  """All values greater than the given value."""
+  map_gt: String
+
+  """All values greater than or equal the given value."""
+  map_gte: String
+
+  """All values containing the given string."""
+  map_contains: String
+
+  """All values not containing the given string."""
+  map_not_contains: String
+
+  """All values starting with the given string."""
+  map_starts_with: String
+
+  """All values not starting with the given string."""
+  map_not_starts_with: String
+
+  """All values ending with the given string."""
+  map_ends_with: String
+
+  """All values not ending with the given string."""
+  map_not_ends_with: String
+  nickname: String
+
+  """All values that are not equal to given value."""
+  nickname_not: String
+
+  """All values that are contained in given list."""
+  nickname_in: [String!]
+
+  """All values that are not contained in given list."""
+  nickname_not_in: [String!]
+
+  """All values less than the given value."""
+  nickname_lt: String
+
+  """All values less than or equal the given value."""
+  nickname_lte: String
+
+  """All values greater than the given value."""
+  nickname_gt: String
+
+  """All values greater than or equal the given value."""
+  nickname_gte: String
+
+  """All values containing the given string."""
+  nickname_contains: String
+
+  """All values not containing the given string."""
+  nickname_not_contains: String
+
+  """All values starting with the given string."""
+  nickname_starts_with: String
+
+  """All values not starting with the given string."""
+  nickname_not_starts_with: String
+
+  """All values ending with the given string."""
+  nickname_ends_with: String
+
+  """All values not ending with the given string."""
+  nickname_not_ends_with: String
+  motto: String
+
+  """All values that are not equal to given value."""
+  motto_not: String
+
+  """All values that are contained in given list."""
+  motto_in: [String!]
+
+  """All values that are not contained in given list."""
+  motto_not_in: [String!]
+
+  """All values less than the given value."""
+  motto_lt: String
+
+  """All values less than or equal the given value."""
+  motto_lte: String
+
+  """All values greater than the given value."""
+  motto_gt: String
+
+  """All values greater than or equal the given value."""
+  motto_gte: String
+
+  """All values containing the given string."""
+  motto_contains: String
+
+  """All values not containing the given string."""
+  motto_not_contains: String
+
+  """All values starting with the given string."""
+  motto_starts_with: String
+
+  """All values not starting with the given string."""
+  motto_not_starts_with: String
+
+  """All values ending with the given string."""
+  motto_ends_with: String
+
+  """All values not ending with the given string."""
+  motto_not_ends_with: String
+  stateAnthem: String
+
+  """All values that are not equal to given value."""
+  stateAnthem_not: String
+
+  """All values that are contained in given list."""
+  stateAnthem_in: [String!]
+
+  """All values that are not contained in given list."""
+  stateAnthem_not_in: [String!]
+
+  """All values less than the given value."""
+  stateAnthem_lt: String
+
+  """All values less than or equal the given value."""
+  stateAnthem_lte: String
+
+  """All values greater than the given value."""
+  stateAnthem_gt: String
+
+  """All values greater than or equal the given value."""
+  stateAnthem_gte: String
+
+  """All values containing the given string."""
+  stateAnthem_contains: String
+
+  """All values not containing the given string."""
+  stateAnthem_not_contains: String
+
+  """All values starting with the given string."""
+  stateAnthem_starts_with: String
+
+  """All values not starting with the given string."""
+  stateAnthem_not_starts_with: String
+
+  """All values ending with the given string."""
+  stateAnthem_ends_with: String
+
+  """All values not ending with the given string."""
+  stateAnthem_not_ends_with: String
+  capital: String
+
+  """All values that are not equal to given value."""
+  capital_not: String
+
+  """All values that are contained in given list."""
+  capital_in: [String!]
+
+  """All values that are not contained in given list."""
+  capital_not_in: [String!]
+
+  """All values less than the given value."""
+  capital_lt: String
+
+  """All values less than or equal the given value."""
+  capital_lte: String
+
+  """All values greater than the given value."""
+  capital_gt: String
+
+  """All values greater than or equal the given value."""
+  capital_gte: String
+
+  """All values containing the given string."""
+  capital_contains: String
+
+  """All values not containing the given string."""
+  capital_not_contains: String
+
+  """All values starting with the given string."""
+  capital_starts_with: String
+
+  """All values not starting with the given string."""
+  capital_not_starts_with: String
+
+  """All values ending with the given string."""
+  capital_ends_with: String
+
+  """All values not ending with the given string."""
+  capital_not_ends_with: String
+  largestCity: String
+
+  """All values that are not equal to given value."""
+  largestCity_not: String
+
+  """All values that are contained in given list."""
+  largestCity_in: [String!]
+
+  """All values that are not contained in given list."""
+  largestCity_not_in: [String!]
+
+  """All values less than the given value."""
+  largestCity_lt: String
+
+  """All values less than or equal the given value."""
+  largestCity_lte: String
+
+  """All values greater than the given value."""
+  largestCity_gt: String
+
+  """All values greater than or equal the given value."""
+  largestCity_gte: String
+
+  """All values containing the given string."""
+  largestCity_contains: String
+
+  """All values not containing the given string."""
+  largestCity_not_contains: String
+
+  """All values starting with the given string."""
+  largestCity_starts_with: String
+
+  """All values not starting with the given string."""
+  largestCity_not_starts_with: String
+
+  """All values ending with the given string."""
+  largestCity_ends_with: String
+
+  """All values not ending with the given string."""
+  largestCity_not_ends_with: String
+  largestMetro: String
+
+  """All values that are not equal to given value."""
+  largestMetro_not: String
+
+  """All values that are contained in given list."""
+  largestMetro_in: [String!]
+
+  """All values that are not contained in given list."""
+  largestMetro_not_in: [String!]
+
+  """All values less than the given value."""
+  largestMetro_lt: String
+
+  """All values less than or equal the given value."""
+  largestMetro_lte: String
+
+  """All values greater than the given value."""
+  largestMetro_gt: String
+
+  """All values greater than or equal the given value."""
+  largestMetro_gte: String
+
+  """All values containing the given string."""
+  largestMetro_contains: String
+
+  """All values not containing the given string."""
+  largestMetro_not_contains: String
+
+  """All values starting with the given string."""
+  largestMetro_starts_with: String
+
+  """All values not starting with the given string."""
+  largestMetro_not_starts_with: String
+
+  """All values ending with the given string."""
+  largestMetro_ends_with: String
+
+  """All values not ending with the given string."""
+  largestMetro_not_ends_with: String
+  governor: String
+
+  """All values that are not equal to given value."""
+  governor_not: String
+
+  """All values that are contained in given list."""
+  governor_in: [String!]
+
+  """All values that are not contained in given list."""
+  governor_not_in: [String!]
+
+  """All values less than the given value."""
+  governor_lt: String
+
+  """All values less than or equal the given value."""
+  governor_lte: String
+
+  """All values greater than the given value."""
+  governor_gt: String
+
+  """All values greater than or equal the given value."""
+  governor_gte: String
+
+  """All values containing the given string."""
+  governor_contains: String
+
+  """All values not containing the given string."""
+  governor_not_contains: String
+
+  """All values starting with the given string."""
+  governor_starts_with: String
+
+  """All values not starting with the given string."""
+  governor_not_starts_with: String
+
+  """All values ending with the given string."""
+  governor_ends_with: String
+
+  """All values not ending with the given string."""
+  governor_not_ends_with: String
+  lieutenantGovernor: String
+
+  """All values that are not equal to given value."""
+  lieutenantGovernor_not: String
+
+  """All values that are contained in given list."""
+  lieutenantGovernor_in: [String!]
+
+  """All values that are not contained in given list."""
+  lieutenantGovernor_not_in: [String!]
+
+  """All values less than the given value."""
+  lieutenantGovernor_lt: String
+
+  """All values less than or equal the given value."""
+  lieutenantGovernor_lte: String
+
+  """All values greater than the given value."""
+  lieutenantGovernor_gt: String
+
+  """All values greater than or equal the given value."""
+  lieutenantGovernor_gte: String
+
+  """All values containing the given string."""
+  lieutenantGovernor_contains: String
+
+  """All values not containing the given string."""
+  lieutenantGovernor_not_contains: String
+
+  """All values starting with the given string."""
+  lieutenantGovernor_starts_with: String
+
+  """All values not starting with the given string."""
+  lieutenantGovernor_not_starts_with: String
+
+  """All values ending with the given string."""
+  lieutenantGovernor_ends_with: String
+
+  """All values not ending with the given string."""
+  lieutenantGovernor_not_ends_with: String
+  legislature: String
+
+  """All values that are not equal to given value."""
+  legislature_not: String
+
+  """All values that are contained in given list."""
+  legislature_in: [String!]
+
+  """All values that are not contained in given list."""
+  legislature_not_in: [String!]
+
+  """All values less than the given value."""
+  legislature_lt: String
+
+  """All values less than or equal the given value."""
+  legislature_lte: String
+
+  """All values greater than the given value."""
+  legislature_gt: String
+
+  """All values greater than or equal the given value."""
+  legislature_gte: String
+
+  """All values containing the given string."""
+  legislature_contains: String
+
+  """All values not containing the given string."""
+  legislature_not_contains: String
+
+  """All values starting with the given string."""
+  legislature_starts_with: String
+
+  """All values not starting with the given string."""
+  legislature_not_starts_with: String
+
+  """All values ending with the given string."""
+  legislature_ends_with: String
+
+  """All values not ending with the given string."""
+  legislature_not_ends_with: String
+  upperhouse: String
+
+  """All values that are not equal to given value."""
+  upperhouse_not: String
+
+  """All values that are contained in given list."""
+  upperhouse_in: [String!]
+
+  """All values that are not contained in given list."""
+  upperhouse_not_in: [String!]
+
+  """All values less than the given value."""
+  upperhouse_lt: String
+
+  """All values less than or equal the given value."""
+  upperhouse_lte: String
+
+  """All values greater than the given value."""
+  upperhouse_gt: String
+
+  """All values greater than or equal the given value."""
+  upperhouse_gte: String
+
+  """All values containing the given string."""
+  upperhouse_contains: String
+
+  """All values not containing the given string."""
+  upperhouse_not_contains: String
+
+  """All values starting with the given string."""
+  upperhouse_starts_with: String
+
+  """All values not starting with the given string."""
+  upperhouse_not_starts_with: String
+
+  """All values ending with the given string."""
+  upperhouse_ends_with: String
+
+  """All values not ending with the given string."""
+  upperhouse_not_ends_with: String
+  lowerhouse: String
+
+  """All values that are not equal to given value."""
+  lowerhouse_not: String
+
+  """All values that are contained in given list."""
+  lowerhouse_in: [String!]
+
+  """All values that are not contained in given list."""
+  lowerhouse_not_in: [String!]
+
+  """All values less than the given value."""
+  lowerhouse_lt: String
+
+  """All values less than or equal the given value."""
+  lowerhouse_lte: String
+
+  """All values greater than the given value."""
+  lowerhouse_gt: String
+
+  """All values greater than or equal the given value."""
+  lowerhouse_gte: String
+
+  """All values containing the given string."""
+  lowerhouse_contains: String
+
+  """All values not containing the given string."""
+  lowerhouse_not_contains: String
+
+  """All values starting with the given string."""
+  lowerhouse_starts_with: String
+
+  """All values not starting with the given string."""
+  lowerhouse_not_starts_with: String
+
+  """All values ending with the given string."""
+  lowerhouse_ends_with: String
+
+  """All values not ending with the given string."""
+  lowerhouse_not_ends_with: String
+  senators: String
+
+  """All values that are not equal to given value."""
+  senators_not: String
+
+  """All values that are contained in given list."""
+  senators_in: [String!]
+
+  """All values that are not contained in given list."""
+  senators_not_in: [String!]
+
+  """All values less than the given value."""
+  senators_lt: String
+
+  """All values less than or equal the given value."""
+  senators_lte: String
+
+  """All values greater than the given value."""
+  senators_gt: String
+
+  """All values greater than or equal the given value."""
+  senators_gte: String
+
+  """All values containing the given string."""
+  senators_contains: String
+
+  """All values not containing the given string."""
+  senators_not_contains: String
+
+  """All values starting with the given string."""
+  senators_starts_with: String
+
+  """All values not starting with the given string."""
+  senators_not_starts_with: String
+
+  """All values ending with the given string."""
+  senators_ends_with: String
+
+  """All values not ending with the given string."""
+  senators_not_ends_with: String
+  representative: String
+
+  """All values that are not equal to given value."""
+  representative_not: String
+
+  """All values that are contained in given list."""
+  representative_in: [String!]
+
+  """All values that are not contained in given list."""
+  representative_not_in: [String!]
+
+  """All values less than the given value."""
+  representative_lt: String
+
+  """All values less than or equal the given value."""
+  representative_lte: String
+
+  """All values greater than the given value."""
+  representative_gt: String
+
+  """All values greater than or equal the given value."""
+  representative_gte: String
+
+  """All values containing the given string."""
+  representative_contains: String
+
+  """All values not containing the given string."""
+  representative_not_contains: String
+
+  """All values starting with the given string."""
+  representative_starts_with: String
+
+  """All values not starting with the given string."""
+  representative_not_starts_with: String
+
+  """All values ending with the given string."""
+  representative_ends_with: String
+
+  """All values not ending with the given string."""
+  representative_not_ends_with: String
+  postalAbbreviation: String
+
+  """All values that are not equal to given value."""
+  postalAbbreviation_not: String
+
+  """All values that are contained in given list."""
+  postalAbbreviation_in: [String!]
+
+  """All values that are not contained in given list."""
+  postalAbbreviation_not_in: [String!]
+
+  """All values less than the given value."""
+  postalAbbreviation_lt: String
+
+  """All values less than or equal the given value."""
+  postalAbbreviation_lte: String
+
+  """All values greater than the given value."""
+  postalAbbreviation_gt: String
+
+  """All values greater than or equal the given value."""
+  postalAbbreviation_gte: String
+
+  """All values containing the given string."""
+  postalAbbreviation_contains: String
+
+  """All values not containing the given string."""
+  postalAbbreviation_not_contains: String
+
+  """All values starting with the given string."""
+  postalAbbreviation_starts_with: String
+
+  """All values not starting with the given string."""
+  postalAbbreviation_not_starts_with: String
+
+  """All values ending with the given string."""
+  postalAbbreviation_ends_with: String
+
+  """All values not ending with the given string."""
+  postalAbbreviation_not_ends_with: String
+  tradAbbreviation: String
+
+  """All values that are not equal to given value."""
+  tradAbbreviation_not: String
+
+  """All values that are contained in given list."""
+  tradAbbreviation_in: [String!]
+
+  """All values that are not contained in given list."""
+  tradAbbreviation_not_in: [String!]
+
+  """All values less than the given value."""
+  tradAbbreviation_lt: String
+
+  """All values less than or equal the given value."""
+  tradAbbreviation_lte: String
+
+  """All values greater than the given value."""
+  tradAbbreviation_gt: String
+
+  """All values greater than or equal the given value."""
+  tradAbbreviation_gte: String
+
+  """All values containing the given string."""
+  tradAbbreviation_contains: String
+
+  """All values not containing the given string."""
+  tradAbbreviation_not_contains: String
+
+  """All values starting with the given string."""
+  tradAbbreviation_starts_with: String
+
+  """All values not starting with the given string."""
+  tradAbbreviation_not_starts_with: String
+
+  """All values ending with the given string."""
+  tradAbbreviation_ends_with: String
+
+  """All values not ending with the given string."""
+  tradAbbreviation_not_ends_with: String
+  officialLang: String
+
+  """All values that are not equal to given value."""
+  officialLang_not: String
+
+  """All values that are contained in given list."""
+  officialLang_in: [String!]
+
+  """All values that are not contained in given list."""
+  officialLang_not_in: [String!]
+
+  """All values less than the given value."""
+  officialLang_lt: String
+
+  """All values less than or equal the given value."""
+  officialLang_lte: String
+
+  """All values greater than the given value."""
+  officialLang_gt: String
+
+  """All values greater than or equal the given value."""
+  officialLang_gte: String
+
+  """All values containing the given string."""
+  officialLang_contains: String
+
+  """All values not containing the given string."""
+  officialLang_not_contains: String
+
+  """All values starting with the given string."""
+  officialLang_starts_with: String
+
+  """All values not starting with the given string."""
+  officialLang_not_starts_with: String
+
+  """All values ending with the given string."""
+  officialLang_ends_with: String
+
+  """All values not ending with the given string."""
+  officialLang_not_ends_with: String
+  languages: String
+
+  """All values that are not equal to given value."""
+  languages_not: String
+
+  """All values that are contained in given list."""
+  languages_in: [String!]
+
+  """All values that are not contained in given list."""
+  languages_not_in: [String!]
+
+  """All values less than the given value."""
+  languages_lt: String
+
+  """All values less than or equal the given value."""
+  languages_lte: String
+
+  """All values greater than the given value."""
+  languages_gt: String
+
+  """All values greater than or equal the given value."""
+  languages_gte: String
+
+  """All values containing the given string."""
+  languages_contains: String
+
+  """All values not containing the given string."""
+  languages_not_contains: String
+
+  """All values starting with the given string."""
+  languages_starts_with: String
+
+  """All values not starting with the given string."""
+  languages_not_starts_with: String
+
+  """All values ending with the given string."""
+  languages_ends_with: String
+
+  """All values not ending with the given string."""
+  languages_not_ends_with: String
+  areaRank: String
+
+  """All values that are not equal to given value."""
+  areaRank_not: String
+
+  """All values that are contained in given list."""
+  areaRank_in: [String!]
+
+  """All values that are not contained in given list."""
+  areaRank_not_in: [String!]
+
+  """All values less than the given value."""
+  areaRank_lt: String
+
+  """All values less than or equal the given value."""
+  areaRank_lte: String
+
+  """All values greater than the given value."""
+  areaRank_gt: String
+
+  """All values greater than or equal the given value."""
+  areaRank_gte: String
+
+  """All values containing the given string."""
+  areaRank_contains: String
+
+  """All values not containing the given string."""
+  areaRank_not_contains: String
+
+  """All values starting with the given string."""
+  areaRank_starts_with: String
+
+  """All values not starting with the given string."""
+  areaRank_not_starts_with: String
+
+  """All values ending with the given string."""
+  areaRank_ends_with: String
+
+  """All values not ending with the given string."""
+  areaRank_not_ends_with: String
+  totalAreaUs: String
+
+  """All values that are not equal to given value."""
+  totalAreaUs_not: String
+
+  """All values that are contained in given list."""
+  totalAreaUs_in: [String!]
+
+  """All values that are not contained in given list."""
+  totalAreaUs_not_in: [String!]
+
+  """All values less than the given value."""
+  totalAreaUs_lt: String
+
+  """All values less than or equal the given value."""
+  totalAreaUs_lte: String
+
+  """All values greater than the given value."""
+  totalAreaUs_gt: String
+
+  """All values greater than or equal the given value."""
+  totalAreaUs_gte: String
+
+  """All values containing the given string."""
+  totalAreaUs_contains: String
+
+  """All values not containing the given string."""
+  totalAreaUs_not_contains: String
+
+  """All values starting with the given string."""
+  totalAreaUs_starts_with: String
+
+  """All values not starting with the given string."""
+  totalAreaUs_not_starts_with: String
+
+  """All values ending with the given string."""
+  totalAreaUs_ends_with: String
+
+  """All values not ending with the given string."""
+  totalAreaUs_not_ends_with: String
+  totalArea: String
+
+  """All values that are not equal to given value."""
+  totalArea_not: String
+
+  """All values that are contained in given list."""
+  totalArea_in: [String!]
+
+  """All values that are not contained in given list."""
+  totalArea_not_in: [String!]
+
+  """All values less than the given value."""
+  totalArea_lt: String
+
+  """All values less than or equal the given value."""
+  totalArea_lte: String
+
+  """All values greater than the given value."""
+  totalArea_gt: String
+
+  """All values greater than or equal the given value."""
+  totalArea_gte: String
+
+  """All values containing the given string."""
+  totalArea_contains: String
+
+  """All values not containing the given string."""
+  totalArea_not_contains: String
+
+  """All values starting with the given string."""
+  totalArea_starts_with: String
+
+  """All values not starting with the given string."""
+  totalArea_not_starts_with: String
+
+  """All values ending with the given string."""
+  totalArea_ends_with: String
+
+  """All values not ending with the given string."""
+  totalArea_not_ends_with: String
+  landAreaUs: String
+
+  """All values that are not equal to given value."""
+  landAreaUs_not: String
+
+  """All values that are contained in given list."""
+  landAreaUs_in: [String!]
+
+  """All values that are not contained in given list."""
+  landAreaUs_not_in: [String!]
+
+  """All values less than the given value."""
+  landAreaUs_lt: String
+
+  """All values less than or equal the given value."""
+  landAreaUs_lte: String
+
+  """All values greater than the given value."""
+  landAreaUs_gt: String
+
+  """All values greater than or equal the given value."""
+  landAreaUs_gte: String
+
+  """All values containing the given string."""
+  landAreaUs_contains: String
+
+  """All values not containing the given string."""
+  landAreaUs_not_contains: String
+
+  """All values starting with the given string."""
+  landAreaUs_starts_with: String
+
+  """All values not starting with the given string."""
+  landAreaUs_not_starts_with: String
+
+  """All values ending with the given string."""
+  landAreaUs_ends_with: String
+
+  """All values not ending with the given string."""
+  landAreaUs_not_ends_with: String
+  landArea: String
+
+  """All values that are not equal to given value."""
+  landArea_not: String
+
+  """All values that are contained in given list."""
+  landArea_in: [String!]
+
+  """All values that are not contained in given list."""
+  landArea_not_in: [String!]
+
+  """All values less than the given value."""
+  landArea_lt: String
+
+  """All values less than or equal the given value."""
+  landArea_lte: String
+
+  """All values greater than the given value."""
+  landArea_gt: String
+
+  """All values greater than or equal the given value."""
+  landArea_gte: String
+
+  """All values containing the given string."""
+  landArea_contains: String
+
+  """All values not containing the given string."""
+  landArea_not_contains: String
+
+  """All values starting with the given string."""
+  landArea_starts_with: String
+
+  """All values not starting with the given string."""
+  landArea_not_starts_with: String
+
+  """All values ending with the given string."""
+  landArea_ends_with: String
+
+  """All values not ending with the given string."""
+  landArea_not_ends_with: String
+  waterAreaUs: String
+
+  """All values that are not equal to given value."""
+  waterAreaUs_not: String
+
+  """All values that are contained in given list."""
+  waterAreaUs_in: [String!]
+
+  """All values that are not contained in given list."""
+  waterAreaUs_not_in: [String!]
+
+  """All values less than the given value."""
+  waterAreaUs_lt: String
+
+  """All values less than or equal the given value."""
+  waterAreaUs_lte: String
+
+  """All values greater than the given value."""
+  waterAreaUs_gt: String
+
+  """All values greater than or equal the given value."""
+  waterAreaUs_gte: String
+
+  """All values containing the given string."""
+  waterAreaUs_contains: String
+
+  """All values not containing the given string."""
+  waterAreaUs_not_contains: String
+
+  """All values starting with the given string."""
+  waterAreaUs_starts_with: String
+
+  """All values not starting with the given string."""
+  waterAreaUs_not_starts_with: String
+
+  """All values ending with the given string."""
+  waterAreaUs_ends_with: String
+
+  """All values not ending with the given string."""
+  waterAreaUs_not_ends_with: String
+  waterArea: String
+
+  """All values that are not equal to given value."""
+  waterArea_not: String
+
+  """All values that are contained in given list."""
+  waterArea_in: [String!]
+
+  """All values that are not contained in given list."""
+  waterArea_not_in: [String!]
+
+  """All values less than the given value."""
+  waterArea_lt: String
+
+  """All values less than or equal the given value."""
+  waterArea_lte: String
+
+  """All values greater than the given value."""
+  waterArea_gt: String
+
+  """All values greater than or equal the given value."""
+  waterArea_gte: String
+
+  """All values containing the given string."""
+  waterArea_contains: String
+
+  """All values not containing the given string."""
+  waterArea_not_contains: String
+
+  """All values starting with the given string."""
+  waterArea_starts_with: String
+
+  """All values not starting with the given string."""
+  waterArea_not_starts_with: String
+
+  """All values ending with the given string."""
+  waterArea_ends_with: String
+
+  """All values not ending with the given string."""
+  waterArea_not_ends_with: String
+  pcWater: String
+
+  """All values that are not equal to given value."""
+  pcWater_not: String
+
+  """All values that are contained in given list."""
+  pcWater_in: [String!]
+
+  """All values that are not contained in given list."""
+  pcWater_not_in: [String!]
+
+  """All values less than the given value."""
+  pcWater_lt: String
+
+  """All values less than or equal the given value."""
+  pcWater_lte: String
+
+  """All values greater than the given value."""
+  pcWater_gt: String
+
+  """All values greater than or equal the given value."""
+  pcWater_gte: String
+
+  """All values containing the given string."""
+  pcWater_contains: String
+
+  """All values not containing the given string."""
+  pcWater_not_contains: String
+
+  """All values starting with the given string."""
+  pcWater_starts_with: String
+
+  """All values not starting with the given string."""
+  pcWater_not_starts_with: String
+
+  """All values ending with the given string."""
+  pcWater_ends_with: String
+
+  """All values not ending with the given string."""
+  pcWater_not_ends_with: String
+  popRank: String
+
+  """All values that are not equal to given value."""
+  popRank_not: String
+
+  """All values that are contained in given list."""
+  popRank_in: [String!]
+
+  """All values that are not contained in given list."""
+  popRank_not_in: [String!]
+
+  """All values less than the given value."""
+  popRank_lt: String
+
+  """All values less than or equal the given value."""
+  popRank_lte: String
+
+  """All values greater than the given value."""
+  popRank_gt: String
+
+  """All values greater than or equal the given value."""
+  popRank_gte: String
+
+  """All values containing the given string."""
+  popRank_contains: String
+
+  """All values not containing the given string."""
+  popRank_not_contains: String
+
+  """All values starting with the given string."""
+  popRank_starts_with: String
+
+  """All values not starting with the given string."""
+  popRank_not_starts_with: String
+
+  """All values ending with the given string."""
+  popRank_ends_with: String
+
+  """All values not ending with the given string."""
+  popRank_not_ends_with: String
+  densityRank: String
+
+  """All values that are not equal to given value."""
+  densityRank_not: String
+
+  """All values that are contained in given list."""
+  densityRank_in: [String!]
+
+  """All values that are not contained in given list."""
+  densityRank_not_in: [String!]
+
+  """All values less than the given value."""
+  densityRank_lt: String
+
+  """All values less than or equal the given value."""
+  densityRank_lte: String
+
+  """All values greater than the given value."""
+  densityRank_gt: String
+
+  """All values greater than or equal the given value."""
+  densityRank_gte: String
+
+  """All values containing the given string."""
+  densityRank_contains: String
+
+  """All values not containing the given string."""
+  densityRank_not_contains: String
+
+  """All values starting with the given string."""
+  densityRank_starts_with: String
+
+  """All values not starting with the given string."""
+  densityRank_not_starts_with: String
+
+  """All values ending with the given string."""
+  densityRank_ends_with: String
+
+  """All values not ending with the given string."""
+  densityRank_not_ends_with: String
+  medianHouseholdIncome: String
+
+  """All values that are not equal to given value."""
+  medianHouseholdIncome_not: String
+
+  """All values that are contained in given list."""
+  medianHouseholdIncome_in: [String!]
+
+  """All values that are not contained in given list."""
+  medianHouseholdIncome_not_in: [String!]
+
+  """All values less than the given value."""
+  medianHouseholdIncome_lt: String
+
+  """All values less than or equal the given value."""
+  medianHouseholdIncome_lte: String
+
+  """All values greater than the given value."""
+  medianHouseholdIncome_gt: String
+
+  """All values greater than or equal the given value."""
+  medianHouseholdIncome_gte: String
+
+  """All values containing the given string."""
+  medianHouseholdIncome_contains: String
+
+  """All values not containing the given string."""
+  medianHouseholdIncome_not_contains: String
+
+  """All values starting with the given string."""
+  medianHouseholdIncome_starts_with: String
+
+  """All values not starting with the given string."""
+  medianHouseholdIncome_not_starts_with: String
+
+  """All values ending with the given string."""
+  medianHouseholdIncome_ends_with: String
+
+  """All values not ending with the given string."""
+  medianHouseholdIncome_not_ends_with: String
+  incomeRank: String
+
+  """All values that are not equal to given value."""
+  incomeRank_not: String
+
+  """All values that are contained in given list."""
+  incomeRank_in: [String!]
+
+  """All values that are not contained in given list."""
+  incomeRank_not_in: [String!]
+
+  """All values less than the given value."""
+  incomeRank_lt: String
+
+  """All values less than or equal the given value."""
+  incomeRank_lte: String
+
+  """All values greater than the given value."""
+  incomeRank_gt: String
+
+  """All values greater than or equal the given value."""
+  incomeRank_gte: String
+
+  """All values containing the given string."""
+  incomeRank_contains: String
+
+  """All values not containing the given string."""
+  incomeRank_not_contains: String
+
+  """All values starting with the given string."""
+  incomeRank_starts_with: String
+
+  """All values not starting with the given string."""
+  incomeRank_not_starts_with: String
+
+  """All values ending with the given string."""
+  incomeRank_ends_with: String
+
+  """All values not ending with the given string."""
+  incomeRank_not_ends_with: String
+  totalGdp: String
+
+  """All values that are not equal to given value."""
+  totalGdp_not: String
+
+  """All values that are contained in given list."""
+  totalGdp_in: [String!]
+
+  """All values that are not contained in given list."""
+  totalGdp_not_in: [String!]
+
+  """All values less than the given value."""
+  totalGdp_lt: String
+
+  """All values less than or equal the given value."""
+  totalGdp_lte: String
+
+  """All values greater than the given value."""
+  totalGdp_gt: String
+
+  """All values greater than or equal the given value."""
+  totalGdp_gte: String
+
+  """All values containing the given string."""
+  totalGdp_contains: String
+
+  """All values not containing the given string."""
+  totalGdp_not_contains: String
+
+  """All values starting with the given string."""
+  totalGdp_starts_with: String
+
+  """All values not starting with the given string."""
+  totalGdp_not_starts_with: String
+
+  """All values ending with the given string."""
+  totalGdp_ends_with: String
+
+  """All values not ending with the given string."""
+  totalGdp_not_ends_with: String
+  totalGdpRank: String
+
+  """All values that are not equal to given value."""
+  totalGdpRank_not: String
+
+  """All values that are contained in given list."""
+  totalGdpRank_in: [String!]
+
+  """All values that are not contained in given list."""
+  totalGdpRank_not_in: [String!]
+
+  """All values less than the given value."""
+  totalGdpRank_lt: String
+
+  """All values less than or equal the given value."""
+  totalGdpRank_lte: String
+
+  """All values greater than the given value."""
+  totalGdpRank_gt: String
+
+  """All values greater than or equal the given value."""
+  totalGdpRank_gte: String
+
+  """All values containing the given string."""
+  totalGdpRank_contains: String
+
+  """All values not containing the given string."""
+  totalGdpRank_not_contains: String
+
+  """All values starting with the given string."""
+  totalGdpRank_starts_with: String
+
+  """All values not starting with the given string."""
+  totalGdpRank_not_starts_with: String
+
+  """All values ending with the given string."""
+  totalGdpRank_ends_with: String
+
+  """All values not ending with the given string."""
+  totalGdpRank_not_ends_with: String
+  perCapitaGdp: String
+
+  """All values that are not equal to given value."""
+  perCapitaGdp_not: String
+
+  """All values that are contained in given list."""
+  perCapitaGdp_in: [String!]
+
+  """All values that are not contained in given list."""
+  perCapitaGdp_not_in: [String!]
+
+  """All values less than the given value."""
+  perCapitaGdp_lt: String
+
+  """All values less than or equal the given value."""
+  perCapitaGdp_lte: String
+
+  """All values greater than the given value."""
+  perCapitaGdp_gt: String
+
+  """All values greater than or equal the given value."""
+  perCapitaGdp_gte: String
+
+  """All values containing the given string."""
+  perCapitaGdp_contains: String
+
+  """All values not containing the given string."""
+  perCapitaGdp_not_contains: String
+
+  """All values starting with the given string."""
+  perCapitaGdp_starts_with: String
+
+  """All values not starting with the given string."""
+  perCapitaGdp_not_starts_with: String
+
+  """All values ending with the given string."""
+  perCapitaGdp_ends_with: String
+
+  """All values not ending with the given string."""
+  perCapitaGdp_not_ends_with: String
+  perCapitaGdpRank: String
+
+  """All values that are not equal to given value."""
+  perCapitaGdpRank_not: String
+
+  """All values that are contained in given list."""
+  perCapitaGdpRank_in: [String!]
+
+  """All values that are not contained in given list."""
+  perCapitaGdpRank_not_in: [String!]
+
+  """All values less than the given value."""
+  perCapitaGdpRank_lt: String
+
+  """All values less than or equal the given value."""
+  perCapitaGdpRank_lte: String
+
+  """All values greater than the given value."""
+  perCapitaGdpRank_gt: String
+
+  """All values greater than or equal the given value."""
+  perCapitaGdpRank_gte: String
+
+  """All values containing the given string."""
+  perCapitaGdpRank_contains: String
+
+  """All values not containing the given string."""
+  perCapitaGdpRank_not_contains: String
+
+  """All values starting with the given string."""
+  perCapitaGdpRank_starts_with: String
+
+  """All values not starting with the given string."""
+  perCapitaGdpRank_not_starts_with: String
+
+  """All values ending with the given string."""
+  perCapitaGdpRank_ends_with: String
+
+  """All values not ending with the given string."""
+  perCapitaGdpRank_not_ends_with: String
+  admittanceOrder: String
+
+  """All values that are not equal to given value."""
+  admittanceOrder_not: String
+
+  """All values that are contained in given list."""
+  admittanceOrder_in: [String!]
+
+  """All values that are not contained in given list."""
+  admittanceOrder_not_in: [String!]
+
+  """All values less than the given value."""
+  admittanceOrder_lt: String
+
+  """All values less than or equal the given value."""
+  admittanceOrder_lte: String
+
+  """All values greater than the given value."""
+  admittanceOrder_gt: String
+
+  """All values greater than or equal the given value."""
+  admittanceOrder_gte: String
+
+  """All values containing the given string."""
+  admittanceOrder_contains: String
+
+  """All values not containing the given string."""
+  admittanceOrder_not_contains: String
+
+  """All values starting with the given string."""
+  admittanceOrder_starts_with: String
+
+  """All values not starting with the given string."""
+  admittanceOrder_not_starts_with: String
+
+  """All values ending with the given string."""
+  admittanceOrder_ends_with: String
+
+  """All values not ending with the given string."""
+  admittanceOrder_not_ends_with: String
+  admittanceDate: String
+
+  """All values that are not equal to given value."""
+  admittanceDate_not: String
+
+  """All values that are contained in given list."""
+  admittanceDate_in: [String!]
+
+  """All values that are not contained in given list."""
+  admittanceDate_not_in: [String!]
+
+  """All values less than the given value."""
+  admittanceDate_lt: String
+
+  """All values less than or equal the given value."""
+  admittanceDate_lte: String
+
+  """All values greater than the given value."""
+  admittanceDate_gt: String
+
+  """All values greater than or equal the given value."""
+  admittanceDate_gte: String
+
+  """All values containing the given string."""
+  admittanceDate_contains: String
+
+  """All values not containing the given string."""
+  admittanceDate_not_contains: String
+
+  """All values starting with the given string."""
+  admittanceDate_starts_with: String
+
+  """All values not starting with the given string."""
+  admittanceDate_not_starts_with: String
+
+  """All values ending with the given string."""
+  admittanceDate_ends_with: String
+
+  """All values not ending with the given string."""
+  admittanceDate_not_ends_with: String
+  tz1Where: String
+
+  """All values that are not equal to given value."""
+  tz1Where_not: String
+
+  """All values that are contained in given list."""
+  tz1Where_in: [String!]
+
+  """All values that are not contained in given list."""
+  tz1Where_not_in: [String!]
+
+  """All values less than the given value."""
+  tz1Where_lt: String
+
+  """All values less than or equal the given value."""
+  tz1Where_lte: String
+
+  """All values greater than the given value."""
+  tz1Where_gt: String
+
+  """All values greater than or equal the given value."""
+  tz1Where_gte: String
+
+  """All values containing the given string."""
+  tz1Where_contains: String
+
+  """All values not containing the given string."""
+  tz1Where_not_contains: String
+
+  """All values starting with the given string."""
+  tz1Where_starts_with: String
+
+  """All values not starting with the given string."""
+  tz1Where_not_starts_with: String
+
+  """All values ending with the given string."""
+  tz1Where_ends_with: String
+
+  """All values not ending with the given string."""
+  tz1Where_not_ends_with: String
+  latitude: String
+
+  """All values that are not equal to given value."""
+  latitude_not: String
+
+  """All values that are contained in given list."""
+  latitude_in: [String!]
+
+  """All values that are not contained in given list."""
+  latitude_not_in: [String!]
+
+  """All values less than the given value."""
+  latitude_lt: String
+
+  """All values less than or equal the given value."""
+  latitude_lte: String
+
+  """All values greater than the given value."""
+  latitude_gt: String
+
+  """All values greater than or equal the given value."""
+  latitude_gte: String
+
+  """All values containing the given string."""
+  latitude_contains: String
+
+  """All values not containing the given string."""
+  latitude_not_contains: String
+
+  """All values starting with the given string."""
+  latitude_starts_with: String
+
+  """All values not starting with the given string."""
+  latitude_not_starts_with: String
+
+  """All values ending with the given string."""
+  latitude_ends_with: String
+
+  """All values not ending with the given string."""
+  latitude_not_ends_with: String
+  longitude: String
+
+  """All values that are not equal to given value."""
+  longitude_not: String
+
+  """All values that are contained in given list."""
+  longitude_in: [String!]
+
+  """All values that are not contained in given list."""
+  longitude_not_in: [String!]
+
+  """All values less than the given value."""
+  longitude_lt: String
+
+  """All values less than or equal the given value."""
+  longitude_lte: String
+
+  """All values greater than the given value."""
+  longitude_gt: String
+
+  """All values greater than or equal the given value."""
+  longitude_gte: String
+
+  """All values containing the given string."""
+  longitude_contains: String
+
+  """All values not containing the given string."""
+  longitude_not_contains: String
+
+  """All values starting with the given string."""
+  longitude_starts_with: String
+
+  """All values not starting with the given string."""
+  longitude_not_starts_with: String
+
+  """All values ending with the given string."""
+  longitude_ends_with: String
+
+  """All values not ending with the given string."""
+  longitude_not_ends_with: String
+  widthUs: String
+
+  """All values that are not equal to given value."""
+  widthUs_not: String
+
+  """All values that are contained in given list."""
+  widthUs_in: [String!]
+
+  """All values that are not contained in given list."""
+  widthUs_not_in: [String!]
+
+  """All values less than the given value."""
+  widthUs_lt: String
+
+  """All values less than or equal the given value."""
+  widthUs_lte: String
+
+  """All values greater than the given value."""
+  widthUs_gt: String
+
+  """All values greater than or equal the given value."""
+  widthUs_gte: String
+
+  """All values containing the given string."""
+  widthUs_contains: String
+
+  """All values not containing the given string."""
+  widthUs_not_contains: String
+
+  """All values starting with the given string."""
+  widthUs_starts_with: String
+
+  """All values not starting with the given string."""
+  widthUs_not_starts_with: String
+
+  """All values ending with the given string."""
+  widthUs_ends_with: String
+
+  """All values not ending with the given string."""
+  widthUs_not_ends_with: String
+  width: String
+
+  """All values that are not equal to given value."""
+  width_not: String
+
+  """All values that are contained in given list."""
+  width_in: [String!]
+
+  """All values that are not contained in given list."""
+  width_not_in: [String!]
+
+  """All values less than the given value."""
+  width_lt: String
+
+  """All values less than or equal the given value."""
+  width_lte: String
+
+  """All values greater than the given value."""
+  width_gt: String
+
+  """All values greater than or equal the given value."""
+  width_gte: String
+
+  """All values containing the given string."""
+  width_contains: String
+
+  """All values not containing the given string."""
+  width_not_contains: String
+
+  """All values starting with the given string."""
+  width_starts_with: String
+
+  """All values not starting with the given string."""
+  width_not_starts_with: String
+
+  """All values ending with the given string."""
+  width_ends_with: String
+
+  """All values not ending with the given string."""
+  width_not_ends_with: String
+  lengthUs: String
+
+  """All values that are not equal to given value."""
+  lengthUs_not: String
+
+  """All values that are contained in given list."""
+  lengthUs_in: [String!]
+
+  """All values that are not contained in given list."""
+  lengthUs_not_in: [String!]
+
+  """All values less than the given value."""
+  lengthUs_lt: String
+
+  """All values less than or equal the given value."""
+  lengthUs_lte: String
+
+  """All values greater than the given value."""
+  lengthUs_gt: String
+
+  """All values greater than or equal the given value."""
+  lengthUs_gte: String
+
+  """All values containing the given string."""
+  lengthUs_contains: String
+
+  """All values not containing the given string."""
+  lengthUs_not_contains: String
+
+  """All values starting with the given string."""
+  lengthUs_starts_with: String
+
+  """All values not starting with the given string."""
+  lengthUs_not_starts_with: String
+
+  """All values ending with the given string."""
+  lengthUs_ends_with: String
+
+  """All values not ending with the given string."""
+  lengthUs_not_ends_with: String
+  length: String
+
+  """All values that are not equal to given value."""
+  length_not: String
+
+  """All values that are contained in given list."""
+  length_in: [String!]
+
+  """All values that are not contained in given list."""
+  length_not_in: [String!]
+
+  """All values less than the given value."""
+  length_lt: String
+
+  """All values less than or equal the given value."""
+  length_lte: String
+
+  """All values greater than the given value."""
+  length_gt: String
+
+  """All values greater than or equal the given value."""
+  length_gte: String
+
+  """All values containing the given string."""
+  length_contains: String
+
+  """All values not containing the given string."""
+  length_not_contains: String
+
+  """All values starting with the given string."""
+  length_starts_with: String
+
+  """All values not starting with the given string."""
+  length_not_starts_with: String
+
+  """All values ending with the given string."""
+  length_ends_with: String
+
+  """All values not ending with the given string."""
+  length_not_ends_with: String
+  highestPoint: String
+
+  """All values that are not equal to given value."""
+  highestPoint_not: String
+
+  """All values that are contained in given list."""
+  highestPoint_in: [String!]
+
+  """All values that are not contained in given list."""
+  highestPoint_not_in: [String!]
+
+  """All values less than the given value."""
+  highestPoint_lt: String
+
+  """All values less than or equal the given value."""
+  highestPoint_lte: String
+
+  """All values greater than the given value."""
+  highestPoint_gt: String
+
+  """All values greater than or equal the given value."""
+  highestPoint_gte: String
+
+  """All values containing the given string."""
+  highestPoint_contains: String
+
+  """All values not containing the given string."""
+  highestPoint_not_contains: String
+
+  """All values starting with the given string."""
+  highestPoint_starts_with: String
+
+  """All values not starting with the given string."""
+  highestPoint_not_starts_with: String
+
+  """All values ending with the given string."""
+  highestPoint_ends_with: String
+
+  """All values not ending with the given string."""
+  highestPoint_not_ends_with: String
+  highestElevUs: String
+
+  """All values that are not equal to given value."""
+  highestElevUs_not: String
+
+  """All values that are contained in given list."""
+  highestElevUs_in: [String!]
+
+  """All values that are not contained in given list."""
+  highestElevUs_not_in: [String!]
+
+  """All values less than the given value."""
+  highestElevUs_lt: String
+
+  """All values less than or equal the given value."""
+  highestElevUs_lte: String
+
+  """All values greater than the given value."""
+  highestElevUs_gt: String
+
+  """All values greater than or equal the given value."""
+  highestElevUs_gte: String
+
+  """All values containing the given string."""
+  highestElevUs_contains: String
+
+  """All values not containing the given string."""
+  highestElevUs_not_contains: String
+
+  """All values starting with the given string."""
+  highestElevUs_starts_with: String
+
+  """All values not starting with the given string."""
+  highestElevUs_not_starts_with: String
+
+  """All values ending with the given string."""
+  highestElevUs_ends_with: String
+
+  """All values not ending with the given string."""
+  highestElevUs_not_ends_with: String
+  highestElev: String
+
+  """All values that are not equal to given value."""
+  highestElev_not: String
+
+  """All values that are contained in given list."""
+  highestElev_in: [String!]
+
+  """All values that are not contained in given list."""
+  highestElev_not_in: [String!]
+
+  """All values less than the given value."""
+  highestElev_lt: String
+
+  """All values less than or equal the given value."""
+  highestElev_lte: String
+
+  """All values greater than the given value."""
+  highestElev_gt: String
+
+  """All values greater than or equal the given value."""
+  highestElev_gte: String
+
+  """All values containing the given string."""
+  highestElev_contains: String
+
+  """All values not containing the given string."""
+  highestElev_not_contains: String
+
+  """All values starting with the given string."""
+  highestElev_starts_with: String
+
+  """All values not starting with the given string."""
+  highestElev_not_starts_with: String
+
+  """All values ending with the given string."""
+  highestElev_ends_with: String
+
+  """All values not ending with the given string."""
+  highestElev_not_ends_with: String
+  meanElevUs: String
+
+  """All values that are not equal to given value."""
+  meanElevUs_not: String
+
+  """All values that are contained in given list."""
+  meanElevUs_in: [String!]
+
+  """All values that are not contained in given list."""
+  meanElevUs_not_in: [String!]
+
+  """All values less than the given value."""
+  meanElevUs_lt: String
+
+  """All values less than or equal the given value."""
+  meanElevUs_lte: String
+
+  """All values greater than the given value."""
+  meanElevUs_gt: String
+
+  """All values greater than or equal the given value."""
+  meanElevUs_gte: String
+
+  """All values containing the given string."""
+  meanElevUs_contains: String
+
+  """All values not containing the given string."""
+  meanElevUs_not_contains: String
+
+  """All values starting with the given string."""
+  meanElevUs_starts_with: String
+
+  """All values not starting with the given string."""
+  meanElevUs_not_starts_with: String
+
+  """All values ending with the given string."""
+  meanElevUs_ends_with: String
+
+  """All values not ending with the given string."""
+  meanElevUs_not_ends_with: String
+  meanElev: String
+
+  """All values that are not equal to given value."""
+  meanElev_not: String
+
+  """All values that are contained in given list."""
+  meanElev_in: [String!]
+
+  """All values that are not contained in given list."""
+  meanElev_not_in: [String!]
+
+  """All values less than the given value."""
+  meanElev_lt: String
+
+  """All values less than or equal the given value."""
+  meanElev_lte: String
+
+  """All values greater than the given value."""
+  meanElev_gt: String
+
+  """All values greater than or equal the given value."""
+  meanElev_gte: String
+
+  """All values containing the given string."""
+  meanElev_contains: String
+
+  """All values not containing the given string."""
+  meanElev_not_contains: String
+
+  """All values starting with the given string."""
+  meanElev_starts_with: String
+
+  """All values not starting with the given string."""
+  meanElev_not_starts_with: String
+
+  """All values ending with the given string."""
+  meanElev_ends_with: String
+
+  """All values not ending with the given string."""
+  meanElev_not_ends_with: String
+  lowestPoint: String
+
+  """All values that are not equal to given value."""
+  lowestPoint_not: String
+
+  """All values that are contained in given list."""
+  lowestPoint_in: [String!]
+
+  """All values that are not contained in given list."""
+  lowestPoint_not_in: [String!]
+
+  """All values less than the given value."""
+  lowestPoint_lt: String
+
+  """All values less than or equal the given value."""
+  lowestPoint_lte: String
+
+  """All values greater than the given value."""
+  lowestPoint_gt: String
+
+  """All values greater than or equal the given value."""
+  lowestPoint_gte: String
+
+  """All values containing the given string."""
+  lowestPoint_contains: String
+
+  """All values not containing the given string."""
+  lowestPoint_not_contains: String
+
+  """All values starting with the given string."""
+  lowestPoint_starts_with: String
+
+  """All values not starting with the given string."""
+  lowestPoint_not_starts_with: String
+
+  """All values ending with the given string."""
+  lowestPoint_ends_with: String
+
+  """All values not ending with the given string."""
+  lowestPoint_not_ends_with: String
+  lowestElevUs: String
+
+  """All values that are not equal to given value."""
+  lowestElevUs_not: String
+
+  """All values that are contained in given list."""
+  lowestElevUs_in: [String!]
+
+  """All values that are not contained in given list."""
+  lowestElevUs_not_in: [String!]
+
+  """All values less than the given value."""
+  lowestElevUs_lt: String
+
+  """All values less than or equal the given value."""
+  lowestElevUs_lte: String
+
+  """All values greater than the given value."""
+  lowestElevUs_gt: String
+
+  """All values greater than or equal the given value."""
+  lowestElevUs_gte: String
+
+  """All values containing the given string."""
+  lowestElevUs_contains: String
+
+  """All values not containing the given string."""
+  lowestElevUs_not_contains: String
+
+  """All values starting with the given string."""
+  lowestElevUs_starts_with: String
+
+  """All values not starting with the given string."""
+  lowestElevUs_not_starts_with: String
+
+  """All values ending with the given string."""
+  lowestElevUs_ends_with: String
+
+  """All values not ending with the given string."""
+  lowestElevUs_not_ends_with: String
+  lowestElev: String
+
+  """All values that are not equal to given value."""
+  lowestElev_not: String
+
+  """All values that are contained in given list."""
+  lowestElev_in: [String!]
+
+  """All values that are not contained in given list."""
+  lowestElev_not_in: [String!]
+
+  """All values less than the given value."""
+  lowestElev_lt: String
+
+  """All values less than or equal the given value."""
+  lowestElev_lte: String
+
+  """All values greater than the given value."""
+  lowestElev_gt: String
+
+  """All values greater than or equal the given value."""
+  lowestElev_gte: String
+
+  """All values containing the given string."""
+  lowestElev_contains: String
+
+  """All values not containing the given string."""
+  lowestElev_not_contains: String
+
+  """All values starting with the given string."""
+  lowestElev_starts_with: String
+
+  """All values not starting with the given string."""
+  lowestElev_not_starts_with: String
+
+  """All values ending with the given string."""
+  lowestElev_ends_with: String
+
+  """All values not ending with the given string."""
+  lowestElev_not_ends_with: String
+  isoCode: String
+
+  """All values that are not equal to given value."""
+  isoCode_not: String
+
+  """All values that are contained in given list."""
+  isoCode_in: [String!]
+
+  """All values that are not contained in given list."""
+  isoCode_not_in: [String!]
+
+  """All values less than the given value."""
+  isoCode_lt: String
+
+  """All values less than or equal the given value."""
+  isoCode_lte: String
+
+  """All values greater than the given value."""
+  isoCode_gt: String
+
+  """All values greater than or equal the given value."""
+  isoCode_gte: String
+
+  """All values containing the given string."""
+  isoCode_contains: String
+
+  """All values not containing the given string."""
+  isoCode_not_contains: String
+
+  """All values starting with the given string."""
+  isoCode_starts_with: String
+
+  """All values not starting with the given string."""
+  isoCode_not_starts_with: String
+
+  """All values ending with the given string."""
+  isoCode_ends_with: String
+
+  """All values not ending with the given string."""
+  isoCode_not_ends_with: String
+  electoralVotes: String
+
+  """All values that are not equal to given value."""
+  electoralVotes_not: String
+
+  """All values that are contained in given list."""
+  electoralVotes_in: [String!]
+
+  """All values that are not contained in given list."""
+  electoralVotes_not_in: [String!]
+
+  """All values less than the given value."""
+  electoralVotes_lt: String
+
+  """All values less than or equal the given value."""
+  electoralVotes_lte: String
+
+  """All values greater than the given value."""
+  electoralVotes_gt: String
+
+  """All values greater than or equal the given value."""
+  electoralVotes_gte: String
+
+  """All values containing the given string."""
+  electoralVotes_contains: String
+
+  """All values not containing the given string."""
+  electoralVotes_not_contains: String
+
+  """All values starting with the given string."""
+  electoralVotes_starts_with: String
+
+  """All values not starting with the given string."""
+  electoralVotes_not_starts_with: String
+
+  """All values ending with the given string."""
+  electoralVotes_ends_with: String
+
+  """All values not ending with the given string."""
+  electoralVotes_not_ends_with: String
+  website: String
+
+  """All values that are not equal to given value."""
+  website_not: String
+
+  """All values that are contained in given list."""
+  website_in: [String!]
+
+  """All values that are not contained in given list."""
+  website_not_in: [String!]
+
+  """All values less than the given value."""
+  website_lt: String
+
+  """All values less than or equal the given value."""
+  website_lte: String
+
+  """All values greater than the given value."""
+  website_gt: String
+
+  """All values greater than or equal the given value."""
+  website_gte: String
+
+  """All values containing the given string."""
+  website_contains: String
+
+  """All values not containing the given string."""
+  website_not_contains: String
+
+  """All values starting with the given string."""
+  website_starts_with: String
+
+  """All values not starting with the given string."""
+  website_not_starts_with: String
+
+  """All values ending with the given string."""
+  website_ends_with: String
+
+  """All values not ending with the given string."""
+  website_not_ends_with: String
+  bird: String
+
+  """All values that are not equal to given value."""
+  bird_not: String
+
+  """All values that are contained in given list."""
+  bird_in: [String!]
+
+  """All values that are not contained in given list."""
+  bird_not_in: [String!]
+
+  """All values less than the given value."""
+  bird_lt: String
+
+  """All values less than or equal the given value."""
+  bird_lte: String
+
+  """All values greater than the given value."""
+  bird_gt: String
+
+  """All values greater than or equal the given value."""
+  bird_gte: String
+
+  """All values containing the given string."""
+  bird_contains: String
+
+  """All values not containing the given string."""
+  bird_not_contains: String
+
+  """All values starting with the given string."""
+  bird_starts_with: String
+
+  """All values not starting with the given string."""
+  bird_not_starts_with: String
+
+  """All values ending with the given string."""
+  bird_ends_with: String
+
+  """All values not ending with the given string."""
+  bird_not_ends_with: String
+  fish: String
+
+  """All values that are not equal to given value."""
+  fish_not: String
+
+  """All values that are contained in given list."""
+  fish_in: [String!]
+
+  """All values that are not contained in given list."""
+  fish_not_in: [String!]
+
+  """All values less than the given value."""
+  fish_lt: String
+
+  """All values less than or equal the given value."""
+  fish_lte: String
+
+  """All values greater than the given value."""
+  fish_gt: String
+
+  """All values greater than or equal the given value."""
+  fish_gte: String
+
+  """All values containing the given string."""
+  fish_contains: String
+
+  """All values not containing the given string."""
+  fish_not_contains: String
+
+  """All values starting with the given string."""
+  fish_starts_with: String
+
+  """All values not starting with the given string."""
+  fish_not_starts_with: String
+
+  """All values ending with the given string."""
+  fish_ends_with: String
+
+  """All values not ending with the given string."""
+  fish_not_ends_with: String
+  flower: String
+
+  """All values that are not equal to given value."""
+  flower_not: String
+
+  """All values that are contained in given list."""
+  flower_in: [String!]
+
+  """All values that are not contained in given list."""
+  flower_not_in: [String!]
+
+  """All values less than the given value."""
+  flower_lt: String
+
+  """All values less than or equal the given value."""
+  flower_lte: String
+
+  """All values greater than the given value."""
+  flower_gt: String
+
+  """All values greater than or equal the given value."""
+  flower_gte: String
+
+  """All values containing the given string."""
+  flower_contains: String
+
+  """All values not containing the given string."""
+  flower_not_contains: String
+
+  """All values starting with the given string."""
+  flower_starts_with: String
+
+  """All values not starting with the given string."""
+  flower_not_starts_with: String
+
+  """All values ending with the given string."""
+  flower_ends_with: String
+
+  """All values not ending with the given string."""
+  flower_not_ends_with: String
+  insect: String
+
+  """All values that are not equal to given value."""
+  insect_not: String
+
+  """All values that are contained in given list."""
+  insect_in: [String!]
+
+  """All values that are not contained in given list."""
+  insect_not_in: [String!]
+
+  """All values less than the given value."""
+  insect_lt: String
+
+  """All values less than or equal the given value."""
+  insect_lte: String
+
+  """All values greater than the given value."""
+  insect_gt: String
+
+  """All values greater than or equal the given value."""
+  insect_gte: String
+
+  """All values containing the given string."""
+  insect_contains: String
+
+  """All values not containing the given string."""
+  insect_not_contains: String
+
+  """All values starting with the given string."""
+  insect_starts_with: String
+
+  """All values not starting with the given string."""
+  insect_not_starts_with: String
+
+  """All values ending with the given string."""
+  insect_ends_with: String
+
+  """All values not ending with the given string."""
+  insect_not_ends_with: String
+  reptile: String
+
+  """All values that are not equal to given value."""
+  reptile_not: String
+
+  """All values that are contained in given list."""
+  reptile_in: [String!]
+
+  """All values that are not contained in given list."""
+  reptile_not_in: [String!]
+
+  """All values less than the given value."""
+  reptile_lt: String
+
+  """All values less than or equal the given value."""
+  reptile_lte: String
+
+  """All values greater than the given value."""
+  reptile_gt: String
+
+  """All values greater than or equal the given value."""
+  reptile_gte: String
+
+  """All values containing the given string."""
+  reptile_contains: String
+
+  """All values not containing the given string."""
+  reptile_not_contains: String
+
+  """All values starting with the given string."""
+  reptile_starts_with: String
+
+  """All values not starting with the given string."""
+  reptile_not_starts_with: String
+
+  """All values ending with the given string."""
+  reptile_ends_with: String
+
+  """All values not ending with the given string."""
+  reptile_not_ends_with: String
+  tree: String
+
+  """All values that are not equal to given value."""
+  tree_not: String
+
+  """All values that are contained in given list."""
+  tree_in: [String!]
+
+  """All values that are not contained in given list."""
+  tree_not_in: [String!]
+
+  """All values less than the given value."""
+  tree_lt: String
+
+  """All values less than or equal the given value."""
+  tree_lte: String
+
+  """All values greater than the given value."""
+  tree_gt: String
+
+  """All values greater than or equal the given value."""
+  tree_gte: String
+
+  """All values containing the given string."""
+  tree_contains: String
+
+  """All values not containing the given string."""
+  tree_not_contains: String
+
+  """All values starting with the given string."""
+  tree_starts_with: String
+
+  """All values not starting with the given string."""
+  tree_not_starts_with: String
+
+  """All values ending with the given string."""
+  tree_ends_with: String
+
+  """All values not ending with the given string."""
+  tree_not_ends_with: String
+  food: String
+
+  """All values that are not equal to given value."""
+  food_not: String
+
+  """All values that are contained in given list."""
+  food_in: [String!]
+
+  """All values that are not contained in given list."""
+  food_not_in: [String!]
+
+  """All values less than the given value."""
+  food_lt: String
+
+  """All values less than or equal the given value."""
+  food_lte: String
+
+  """All values greater than the given value."""
+  food_gt: String
+
+  """All values greater than or equal the given value."""
+  food_gte: String
+
+  """All values containing the given string."""
+  food_contains: String
+
+  """All values not containing the given string."""
+  food_not_contains: String
+
+  """All values starting with the given string."""
+  food_starts_with: String
+
+  """All values not starting with the given string."""
+  food_not_starts_with: String
+
+  """All values ending with the given string."""
+  food_ends_with: String
+
+  """All values not ending with the given string."""
+  food_not_ends_with: String
+  instrument: String
+
+  """All values that are not equal to given value."""
+  instrument_not: String
+
+  """All values that are contained in given list."""
+  instrument_in: [String!]
+
+  """All values that are not contained in given list."""
+  instrument_not_in: [String!]
+
+  """All values less than the given value."""
+  instrument_lt: String
+
+  """All values less than or equal the given value."""
+  instrument_lte: String
+
+  """All values greater than the given value."""
+  instrument_gt: String
+
+  """All values greater than or equal the given value."""
+  instrument_gte: String
+
+  """All values containing the given string."""
+  instrument_contains: String
+
+  """All values not containing the given string."""
+  instrument_not_contains: String
+
+  """All values starting with the given string."""
+  instrument_starts_with: String
+
+  """All values not starting with the given string."""
+  instrument_not_starts_with: String
+
+  """All values ending with the given string."""
+  instrument_ends_with: String
+
+  """All values not ending with the given string."""
+  instrument_not_ends_with: String
+  shell: String
+
+  """All values that are not equal to given value."""
+  shell_not: String
+
+  """All values that are contained in given list."""
+  shell_in: [String!]
+
+  """All values that are not contained in given list."""
+  shell_not_in: [String!]
+
+  """All values less than the given value."""
+  shell_lt: String
+
+  """All values less than or equal the given value."""
+  shell_lte: String
+
+  """All values greater than the given value."""
+  shell_gt: String
+
+  """All values greater than or equal the given value."""
+  shell_gte: String
+
+  """All values containing the given string."""
+  shell_contains: String
+
+  """All values not containing the given string."""
+  shell_not_contains: String
+
+  """All values starting with the given string."""
+  shell_starts_with: String
+
+  """All values not starting with the given string."""
+  shell_not_starts_with: String
+
+  """All values ending with the given string."""
+  shell_ends_with: String
+
+  """All values not ending with the given string."""
+  shell_not_ends_with: String
+  ship: String
+
+  """All values that are not equal to given value."""
+  ship_not: String
+
+  """All values that are contained in given list."""
+  ship_in: [String!]
+
+  """All values that are not contained in given list."""
+  ship_not_in: [String!]
+
+  """All values less than the given value."""
+  ship_lt: String
+
+  """All values less than or equal the given value."""
+  ship_lte: String
+
+  """All values greater than the given value."""
+  ship_gt: String
+
+  """All values greater than or equal the given value."""
+  ship_gte: String
+
+  """All values containing the given string."""
+  ship_contains: String
+
+  """All values not containing the given string."""
+  ship_not_contains: String
+
+  """All values starting with the given string."""
+  ship_starts_with: String
+
+  """All values not starting with the given string."""
+  ship_not_starts_with: String
+
+  """All values ending with the given string."""
+  ship_ends_with: String
+
+  """All values not ending with the given string."""
+  ship_not_ends_with: String
+  slogan: String
+
+  """All values that are not equal to given value."""
+  slogan_not: String
+
+  """All values that are contained in given list."""
+  slogan_in: [String!]
+
+  """All values that are not contained in given list."""
+  slogan_not_in: [String!]
+
+  """All values less than the given value."""
+  slogan_lt: String
+
+  """All values less than or equal the given value."""
+  slogan_lte: String
+
+  """All values greater than the given value."""
+  slogan_gt: String
+
+  """All values greater than or equal the given value."""
+  slogan_gte: String
+
+  """All values containing the given string."""
+  slogan_contains: String
+
+  """All values not containing the given string."""
+  slogan_not_contains: String
+
+  """All values starting with the given string."""
+  slogan_starts_with: String
+
+  """All values not starting with the given string."""
+  slogan_not_starts_with: String
+
+  """All values ending with the given string."""
+  slogan_ends_with: String
+
+  """All values not ending with the given string."""
+  slogan_not_ends_with: String
+  soil: String
+
+  """All values that are not equal to given value."""
+  soil_not: String
+
+  """All values that are contained in given list."""
+  soil_in: [String!]
+
+  """All values that are not contained in given list."""
+  soil_not_in: [String!]
+
+  """All values less than the given value."""
+  soil_lt: String
+
+  """All values less than or equal the given value."""
+  soil_lte: String
+
+  """All values greater than the given value."""
+  soil_gt: String
+
+  """All values greater than or equal the given value."""
+  soil_gte: String
+
+  """All values containing the given string."""
+  soil_contains: String
+
+  """All values not containing the given string."""
+  soil_not_contains: String
+
+  """All values starting with the given string."""
+  soil_starts_with: String
+
+  """All values not starting with the given string."""
+  soil_not_starts_with: String
+
+  """All values ending with the given string."""
+  soil_ends_with: String
+
+  """All values not ending with the given string."""
+  soil_not_ends_with: String
+  sport: String
+
+  """All values that are not equal to given value."""
+  sport_not: String
+
+  """All values that are contained in given list."""
+  sport_in: [String!]
+
+  """All values that are not contained in given list."""
+  sport_not_in: [String!]
+
+  """All values less than the given value."""
+  sport_lt: String
+
+  """All values less than or equal the given value."""
+  sport_lte: String
+
+  """All values greater than the given value."""
+  sport_gt: String
+
+  """All values greater than or equal the given value."""
+  sport_gte: String
+
+  """All values containing the given string."""
+  sport_contains: String
+
+  """All values not containing the given string."""
+  sport_not_contains: String
+
+  """All values starting with the given string."""
+  sport_starts_with: String
+
+  """All values not starting with the given string."""
+  sport_not_starts_with: String
+
+  """All values ending with the given string."""
+  sport_ends_with: String
+
+  """All values not ending with the given string."""
+  sport_not_ends_with: String
+  other: String
+
+  """All values that are not equal to given value."""
+  other_not: String
+
+  """All values that are contained in given list."""
+  other_in: [String!]
+
+  """All values that are not contained in given list."""
+  other_not_in: [String!]
+
+  """All values less than the given value."""
+  other_lt: String
+
+  """All values less than or equal the given value."""
+  other_lte: String
+
+  """All values greater than the given value."""
+  other_gt: String
+
+  """All values greater than or equal the given value."""
+  other_gte: String
+
+  """All values containing the given string."""
+  other_contains: String
+
+  """All values not containing the given string."""
+  other_not_contains: String
+
+  """All values starting with the given string."""
+  other_starts_with: String
+
+  """All values not starting with the given string."""
+  other_not_starts_with: String
+
+  """All values ending with the given string."""
+  other_ends_with: String
+
+  """All values not ending with the given string."""
+  other_not_ends_with: String
+  routeMarker: String
+
+  """All values that are not equal to given value."""
+  routeMarker_not: String
+
+  """All values that are contained in given list."""
+  routeMarker_in: [String!]
+
+  """All values that are not contained in given list."""
+  routeMarker_not_in: [String!]
+
+  """All values less than the given value."""
+  routeMarker_lt: String
+
+  """All values less than or equal the given value."""
+  routeMarker_lte: String
+
+  """All values greater than the given value."""
+  routeMarker_gt: String
+
+  """All values greater than or equal the given value."""
+  routeMarker_gte: String
+
+  """All values containing the given string."""
+  routeMarker_contains: String
+
+  """All values not containing the given string."""
+  routeMarker_not_contains: String
+
+  """All values starting with the given string."""
+  routeMarker_starts_with: String
+
+  """All values not starting with the given string."""
+  routeMarker_not_starts_with: String
+
+  """All values ending with the given string."""
+  routeMarker_ends_with: String
+
+  """All values not ending with the given string."""
+  routeMarker_not_ends_with: String
+  quarter: String
+
+  """All values that are not equal to given value."""
+  quarter_not: String
+
+  """All values that are contained in given list."""
+  quarter_in: [String!]
+
+  """All values that are not contained in given list."""
+  quarter_not_in: [String!]
+
+  """All values less than the given value."""
+  quarter_lt: String
+
+  """All values less than or equal the given value."""
+  quarter_lte: String
+
+  """All values greater than the given value."""
+  quarter_gt: String
+
+  """All values greater than or equal the given value."""
+  quarter_gte: String
+
+  """All values containing the given string."""
+  quarter_contains: String
+
+  """All values not containing the given string."""
+  quarter_not_contains: String
+
+  """All values starting with the given string."""
+  quarter_starts_with: String
+
+  """All values not starting with the given string."""
+  quarter_not_starts_with: String
+
+  """All values ending with the given string."""
+  quarter_ends_with: String
+
+  """All values not ending with the given string."""
+  quarter_not_ends_with: String
+  quarterReleaseDate: String
+
+  """All values that are not equal to given value."""
+  quarterReleaseDate_not: String
+
+  """All values that are contained in given list."""
+  quarterReleaseDate_in: [String!]
+
+  """All values that are not contained in given list."""
+  quarterReleaseDate_not_in: [String!]
+
+  """All values less than the given value."""
+  quarterReleaseDate_lt: String
+
+  """All values less than or equal the given value."""
+  quarterReleaseDate_lte: String
+
+  """All values greater than the given value."""
+  quarterReleaseDate_gt: String
+
+  """All values greater than or equal the given value."""
+  quarterReleaseDate_gte: String
+
+  """All values containing the given string."""
+  quarterReleaseDate_contains: String
+
+  """All values not containing the given string."""
+  quarterReleaseDate_not_contains: String
+
+  """All values starting with the given string."""
+  quarterReleaseDate_starts_with: String
+
+  """All values not starting with the given string."""
+  quarterReleaseDate_not_starts_with: String
+
+  """All values ending with the given string."""
+  quarterReleaseDate_ends_with: String
+
+  """All values not ending with the given string."""
+  quarterReleaseDate_not_ends_with: String
+}
+
+input WikiInfoWhereUniqueInput {
+  id: ID
+}
