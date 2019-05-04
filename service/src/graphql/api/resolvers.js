@@ -1,17 +1,88 @@
 require('dotenv').config()
 
-const { Translate } = require('@google-cloud/translate')
-const translator = new Translate({
+// Imports the Google Cloud client library
+const { SpeechClient } = require('@google-cloud/speech')
+const fs = require('fs')
+const mkdirp = require('mkdirp')
+const rimraf = require('rimraf')
+const url = require('url')
+const path = require('path')
+const hash = require('object-hash')
+const ffmpegStatic = require('ffmpeg-static')
+const ffmpeg = require('fluent-ffmpeg')
+ffmpeg.setFfmpegPath(ffmpegStatic.path)
+
+const WORKING_DIR = process.env.WORKING_DIR || './'
+
+// Creates a client
+const client = new SpeechClient({
   projectId: 'maana-df-test'
 })
 
-const translate = async (texts, sourceLang, targetLang) => {
+const recognize = async ({ audio, sourceLanguageTag }) => {
   try {
-    const res = await translator.translate(texts, {
-      from: sourceLang,
-      to: targetLang
+    mkdirp.sync(WORKING_DIR)
+
+    const sourceUrl = url.parse(
+      audio.file.url ? audio.file.url.id : audio.file.id
+    ).href
+    const localFile = path.resolve(WORKING_DIR, hash(sourceUrl))
+
+    return new Promise((resolve, reject) => {
+      ffmpeg(sourceUrl)
+        .outputOptions([
+          '-f s16le',
+          '-acodec pcm_s16le',
+          '-vn',
+          '-ac 1',
+          '-ar 16k',
+          '-map_metadata -1'
+        ])
+        .save(localFile)
+        .on('error', err => {
+          reject(err)
+        })
+        .on('end', () => {
+          // Reads a local audio file and converts it to base64
+          const file = fs.readFileSync(localFile)
+          const audioBytes = file.toString('base64')
+
+          // Cleanup
+          // rimraf(localFile, () => {})
+
+          // The audio file's encoding, sample rate in hertz, and BCP-47 language code
+          const audio = {
+            content: audioBytes
+          }
+          const config = {
+            encoding: audio.encoding ? audio.encode.id : 'LINEAR16',
+            sampleRateHertz: audio.sampleRate ? audio.sampleRate.id : 16000,
+            languageCode: sourceLanguageTag ? sourceLanguageTag.id : 'en-US'
+          }
+          const request = {
+            audio: audio,
+            config: config
+          }
+
+          // Detects speech in the audio file
+          client
+            .recognize(request)
+            .then(data => {
+              // console.log('Raw Response:', JSON.stringify(data))
+              const result = data[0].results[0].alternatives[0]
+              // console.log('result', result)
+              resolve({
+                id: hash(sourceUrl),
+                text: result.transcript,
+                confidence: result.confidence
+              })
+            })
+            .catch(err => {
+              console.error('ERROR:', err)
+              resolve(err)
+            })
+        })
     })
-    return res
   } catch (e) {
     console.log('Exception: ', e)
     throw e
@@ -22,56 +93,12 @@ export const resolver = {
   Query: {
     info: async () => {
       return {
-        id: 'maana-google-ai-translate',
-        name: 'maana-google-ai-translate',
+        id: 'maana-google-ai-speech-to-text',
+        name: 'maana-google-ai-speech-to-text',
         description:
-          'Maana Q Knowledge Service wrapper for Google Cloud Translation'
+          'Maana Q Knowledge Service wrapper for Google Cloud Speech-to-Text service'
       }
     },
-    translateOne: async (_, { text, targetLanguageTag }) => {
-      const res = await translate(text, undefined, targetLanguageTag.id)
-      return {
-        id: 0,
-        text: res[0],
-        languageTag: targetLanguageTag
-      }
-    },
-    translateOneLocalized: async (_, { localizedText, targetLanguageTag }) => {
-      const res = await translate(
-        localizedText.text,
-        localizedText.languageTag.id,
-        targetLanguageTag.id
-      )
-      return {
-        id: 0,
-        text: res[0],
-        languageTag: targetLanguageTag
-      }
-    },
-
-    translateMultiple: async (_, { texts, targetLanguageTag }) => {
-      const res = await translate(texts, undefined, targetLanguageTag.id)
-      return res[0].map((x, i) => ({
-        id: i.toString(),
-        text: x,
-        languageTag: targetLanguageTag
-      }))
-    },
-    translateMultipleLocalized: async (
-      _,
-      { localizedTexts, targetLanguageTag }
-    ) => {
-      // NOTE: this assumes the collection of localizedTexts to translate are all the same language tag!
-      const res = await translate(
-        localizedTexts.map(x => x.text),
-        localizedTexts[0].languageTag.id,
-        targetLanguageTag.id
-      )
-      return res[0].map((x, i) => ({
-        id: i.toString(),
-        text: x,
-        languageTag: targetLanguageTag
-      }))
-    }
+    recognize: async (_, args) => recognize(args)
   }
 }

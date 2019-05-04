@@ -1,2 +1,2 @@
-# maana-google-ai-translation
+# maana-google-ai-speech-to-text
 

@@ -4,24 +4,24 @@ build:
   context: .
   dockerfile: Dockerfile
 install:
-  chart: charts/maana-google-ai-translation
+  chart: charts/maana-google-ai-speech-to-text
   values:
   - values.dev.yaml?
   - secrets.dev.yaml?
   set:
     replicaCount: 1
     image:
-      repository: maana-google-ai-translation
+      repository: maana-google-ai-speech-to-text
       tag: $(tag)
       pullPolicy: Never
     ingress:
       annotations:
         kubernetes.io/ingress.class: traefik-azds
       hosts:
-      # This expands to form the service's public URL: [space.s.][rootSpace.]maana-google-ai-translation.<random suffix>.<region>.azds.io
-      # Customize the public URL by changing the 'maana-google-ai-translation' text between the $(rootSpacePrefix) and $(hostSuffix) tokens
+      # This expands to form the service's public URL: [space.s.][rootSpace.]maana-google-ai-speech-to-text.<random suffix>.<region>.azds.io
+      # Customize the public URL by changing the 'maana-google-ai-speech-to-text' text between the $(rootSpacePrefix) and $(hostSuffix) tokens
       # For more information see https://aka.ms/devspaces/routing
-      - $(spacePrefix)$(rootSpacePrefix)maana-google-ai-translation$(hostSuffix)
+      - $(spacePrefix)$(rootSpacePrefix)m-g-ai-stt$(hostSuffix)
 configurations:
   develop:
     build:

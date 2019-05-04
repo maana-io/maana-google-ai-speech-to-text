@@ -1,5 +1,6 @@
 package-lock.json
 dist
 node_modules
-.env
-Maana*.json
+!.env
+# google-api-key.json
+tmp
