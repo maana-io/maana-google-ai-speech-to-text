@@ -99,6 +99,14 @@ export const resolver = {
           'Maana Q Knowledge Service wrapper for Google Cloud Speech-to-Text service'
       }
     },
+    getTranscriptionConfidence: async (_, { transcription }) =>
+      transcription.confidence,
+    getTranscriptionText: async (_, { transcription }) => transcription.text,
+    makeTranscription: async (_, { id, text, confidence }) => ({
+      id: id || hash(`${text}#${confidence}`),
+      text,
+      confidence
+    }),
     recognize: async (_, args) => recognize(args)
   }
 }

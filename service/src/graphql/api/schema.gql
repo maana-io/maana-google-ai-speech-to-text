@@ -273,10 +273,17 @@ type Mutation {
 }
 
 type Query {
+  getTranscriptionText(transcription: TranscriptionAsInput!): String!
+  getTranscriptionConfidence(transcription: TranscriptionAsInput!): Float!
   recognize(
     audio: AudioAsInput!
     sourceLanguageTag: LanguageTagAsInput
-  ): Transcription!
+  ): TranscriptionOutput!
+  makeTranscription(
+    id: ID
+    text: String
+    confidence: Float
+  ): TranscriptionOutput!
   CKGErrors: [String]
 
   """
@@ -382,6 +389,18 @@ type Transcription {
   """
   id
   """
+  id: ID!
+  text: String
+  confidence: Float
+}
+
+input TranscriptionAsInput {
+  id: ID!
+  text: String
+  confidence: Float
+}
+
+type TranscriptionOutput {
   id: ID!
   text: String
   confidence: Float
