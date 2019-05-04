@@ -4,24 +4,24 @@ build:
   context: .
   dockerfile: Dockerfile
 install:
-  chart: charts/m
+  chart: charts/m-g-ai-stt
   values:
   - values.dev.yaml?
   - secrets.dev.yaml?
   set:
     replicaCount: 1
     image:
-      repository: m
+      repository: m-g-ai-stt
       tag: $(tag)
       pullPolicy: Never
     ingress:
       annotations:
         kubernetes.io/ingress.class: traefik-azds
       hosts:
-      # This expands to form the service's public URL: [space.s.][rootSpace.]m.<random suffix>.<region>.azds.io
-      # Customize the public URL by changing the 'm' text between the $(rootSpacePrefix) and $(hostSuffix) tokens
+      # This expands to form the service's public URL: [space.s.][rootSpace.]m-g-ai-stt.<random suffix>.<region>.azds.io
+      # Customize the public URL by changing the 'm-g-ai-stt' text between the $(rootSpacePrefix) and $(hostSuffix) tokens
       # For more information see https://aka.ms/devspaces/routing
-      - $(spacePrefix)$(rootSpacePrefix)m$(hostSuffix)
+      - $(spacePrefix)$(rootSpacePrefix)m-g-ai-stt$(hostSuffix)
 configurations:
   develop:
     build:
