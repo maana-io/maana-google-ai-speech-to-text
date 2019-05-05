@@ -7,6 +7,7 @@ const mkdirp = require('mkdirp')
 const rimraf = require('rimraf')
 const url = require('url')
 const path = require('path')
+const request = require('request')
 const hash = require('object-hash')
 const ffmpegStatic = require('ffmpeg-static')
 const ffmpeg = require('fluent-ffmpeg')
@@ -21,66 +22,79 @@ const client = new SpeechClient({
 
 const recognize = async ({ audio, sourceLanguageTag }) => {
   try {
-    mkdirp.sync(WORKING_DIR)
-
     const sourceUrl = url.parse(
       audio.file.url ? audio.file.url.id : audio.file.id
     ).href
-    const localFile = path.resolve(WORKING_DIR, hash(sourceUrl))
 
+    const workingDir = path.resolve(WORKING_DIR, hash(sourceUrl))
+    mkdirp.sync(workingDir)
+
+    const localFile = path.resolve(workingDir, 'input')
+    // console.log('local', localFile)
     return new Promise((resolve, reject) => {
-      ffmpeg(sourceUrl)
-        .outputOptions([
-          '-f s16le',
-          '-acodec pcm_s16le',
-          '-vn',
-          '-ac 1',
-          '-ar 16k',
-          '-map_metadata -1'
-        ])
-        .save(localFile)
-        .on('error', err => {
-          reject(err)
-        })
-        .on('end', () => {
-          // Reads a local audio file and converts it to base64
-          const file = fs.readFileSync(localFile)
-          const audioBytes = file.toString('base64')
-
-          // Cleanup
-          rimraf(localFile, () => {})
-
-          // The audio file's encoding, sample rate in hertz, and BCP-47 language code
-          const audio = {
-            content: audioBytes
-          }
-          const config = {
-            encoding: audio.encoding ? audio.encode.id : 'LINEAR16',
-            sampleRateHertz: audio.sampleRate ? audio.sampleRate.id : 16000,
-            languageCode: sourceLanguageTag ? sourceLanguageTag.id : 'en-US'
-          }
-          const request = {
-            audio: audio,
-            config: config
-          }
-
-          // Detects speech in the audio file
-          client
-            .recognize(request)
-            .then(data => {
-              // console.log('Raw Response:', JSON.stringify(data))
-              const result = data[0].results[0].alternatives[0]
-              // console.log('result', result)
-              resolve({
-                id: hash(sourceUrl),
-                text: result.transcript,
-                confidence: result.confidence
-              })
+      request(sourceUrl)
+        .pipe(fs.createWriteStream(localFile))
+        .on('error', error => reject(error))
+        .on('close', () => {
+          const cvtFile = path.resolve(workingDir, 'output')
+          // console.log('cvt', cvtFile)
+          ffmpeg(localFile)
+            .outputOptions([
+              '-f s16le',
+              '-acodec pcm_s16le',
+              '-vn',
+              '-ac 1',
+              '-ar 16k',
+              '-map_metadata -1'
+            ])
+            .on('error', err => {
+              reject(err)
             })
-            .catch(err => {
-              // console.error('ERROR:', err)
-              resolve(err)
+            .on('end', () => {
+              // Reads a local audio file and converts it to base64
+              const file = fs.readFileSync(localFile)
+              const audioBytes = file.toString('base64')
+
+              // Cleanup
+              rimraf(workingDir, () => {})
+
+              // The audio file's encoding, sample rate in hertz, and BCP-47 language code
+              const audio = {
+                content: audioBytes
+              }
+              const config = {
+                encoding: audio.encoding ? audio.encode.id : 'LINEAR16',
+                sampleRateHertz: audio.sampleRate ? audio.sampleRate.id : 16000,
+                languageCode: sourceLanguageTag ? sourceLanguageTag.id : 'en-US'
+              }
+              const request = {
+                audio: audio,
+                config: config
+              }
+
+              // Detects speech in the audio file
+              client
+                .recognize(request)
+                .then(data => {
+                  // console.log('Raw Response:', JSON.stringify(data))
+                  const results = data[0].results
+                  const text = results
+                    .map(x => x.alternatives[0].transcript)
+                    .join('')
+                  const confidence = results[0].alternatives[0].confidence
+                  // console.log('result', result)
+                  resolve({
+                    id: hash(sourceUrl),
+                    text,
+                    confidence
+                  })
+                })
+                .catch(err => {
+                  // console.error('ERROR:', err)
+                  resolve(err)
+                })
             })
+            .save(cvtFile)
         })
     })
   } catch (e) {

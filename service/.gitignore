@@ -2,5 +2,6 @@ package-lock.json
 dist
 node_modules
 !.env
-# google-api-key.json
+charts
+google-api-key.json
 tmp
