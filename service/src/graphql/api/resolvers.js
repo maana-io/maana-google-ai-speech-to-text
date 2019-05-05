@@ -48,7 +48,7 @@ const recognize = async ({ audio, sourceLanguageTag }) => {
           const audioBytes = file.toString('base64')
 
           // Cleanup
-          // rimraf(localFile, () => {})
+          rimraf(localFile, () => {})
 
           // The audio file's encoding, sample rate in hertz, and BCP-47 language code
           const audio = {
@@ -78,13 +78,13 @@ const recognize = async ({ audio, sourceLanguageTag }) => {
               })
             })
             .catch(err => {
-              console.error('ERROR:', err)
+              // console.error('ERROR:', err)
               resolve(err)
             })
         })
     })
   } catch (e) {
-    console.log('Exception: ', e)
+    // console.log('Exception: ', e)
     throw e
   }
 }
