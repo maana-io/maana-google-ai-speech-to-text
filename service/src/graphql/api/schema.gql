@@ -19,7 +19,7 @@ enum AggregateOp {
 
 input AudioAsInput {
   id: ID!
-  file: FileAsInput!
+  file: FileAsInput
   duration: TimeDurationAsInput
   encoding: AudioEncodingAsInput
   sampleRate: RateAsInput
