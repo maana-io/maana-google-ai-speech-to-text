@@ -28,8 +28,8 @@ input AudioAsInput {
 
 input AudioEncodingAsInput {
   id: ID!
-  encoding: EncodingAsInput!
-  isLossless: Boolean!
+  encoding: EncodingAsInput
+  isLossless: Boolean
 }
 
 input AudioFormatAsInput {

@@ -62,7 +62,7 @@ const recognize = async ({ audio, sourceLanguageTag }) => {
                   content: audioBytes
                 },
                 config: {
-                  encoding: audio.encoding ? audio.encode.id : 'LINEAR16',
+                  encoding: audio.encoding ? audio.encoding.id : 'LINEAR16',
                   sampleRateHertz: audio.sampleRate
                     ? audio.sampleRate.id
                     : 16000,
